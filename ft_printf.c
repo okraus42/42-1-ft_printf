@@ -1,132 +1,71 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_print_memory.c                                  :+:      :+:    :+:   */
+/*   ft_printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:49:23 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/22 14:22:58 by okraus           ###   ########.fr       */
+/*   Updated: 2023/01/26 18:13:10 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
-#include <stdio.h>
-#include <stdint.h>
-#include <stdarg.h>
+#include "libftprintf.h"
 
-void	ft_putmem_fd(uintptr_t mem, int fd)
+void	ft_putstuff(va_list arg, char *s, int *q, t_output	*t)
 {
-	if (mem / 16)
-		ft_putmem_fd(mem / 16, fd);
-	write(fd, &"0123456789abcdef"[mem % 16], 1);
+	ft_prefill_struct(t, &s[q[0]]);
+	while (s[q[0]] != 'c' && s[q[0]] != 's' && s[q[0]] != 'p' && s[q[0]] != 'd'
+		&& s[q[0]] != 'i' && s[q[0]] != 'u' && s[q[0]] != 'x' && s[q[0]] != 'X'
+		&& s[q[0]] != '%' && s[q[0]] != '\0')
+		q[0]++;
+	if (s[q[0]] == '%')
+		q[1] += write(1, &s[q[0]], 1);
+	else if (s[q[0]] == 'p')
+		q[1] += ft_print_pointer_fd(va_arg(arg, void *), 1);
+	else if (s[q[0]] == 'u')
+		q[1] += ft_putunsigned_fd(va_arg(arg, unsigned int), 1);
+	else if (s[q[0]] == 'c')
+		q[1] += ft_putchar_fd(va_arg(arg, int), 1);
+	else if (s[q[0]] == 's')
+		q[1] += ft_putstring_fd(va_arg(arg, char *), 1);
+	else if (s[q[0]] == 'd' || s[q[0]] == 'i')
+		q[1] += ft_putinteger_fd(va_arg(arg, int), 1, t);
+	else if (s[q[0]] == 'X')
+		q[1] += ft_puthexabig_fd(va_arg(arg, unsigned int), 1, t);
+	else if (s[q[0]] == 'x')
+		q[1] += ft_puthexasmall_fd(va_arg(arg, unsigned int), 1, t);
+	q[0]++;
 }
 
-
-int	ft_putadd_fd(void *p, int fd)
+int	ft_printf(char *s, ...)
 {
-	write(1, "0x", 2);
-	ft_putmem_fd((uintptr_t)p, fd);
-	return (2);
-}
+	static int		q[2];
+	va_list			arg;
+	static t_output	*t;
 
-void	ft_putuns2_fd(unsigned int u, int fd)
-{
-	if (u / 10)
-		ft_putuns2_fd(u / 10, fd);
-	write(fd, &"0123456789"[u % 10], 1);
-}
-
-int	ft_putuns_fd(unsigned int u, int fd)
-{
-	ft_putuns2_fd(u, fd);
-	return (2);
-}
-
-int	ft_count_par(char *s)
-{
-	int	i;
-	int	par;
-
-	i = 0;
-	par = 0;
-	while (s[i])
-	{
-		if (s[i] == '%' && s[i + 1] != '%')
-			{
-				par++;
-				i++;
-			}
-		i++;
-	}
-	return (par);	
-}
-
-int	ft_put_percent(void)
-{
-	write (1, "%", 1);
-	return (1);
-}
-
-int	ft_putstuff_test(va_list arg, char *s)
-{
-	int	i;
-
-	i = 0;
-	while (s[i] != 'c' && s[i] != 's' && s[i] != 'p' && s[i] != 'd'
-		&& s[i] != 'i' && s[i] != 'u' && s[i] != 'x' && s[i] != 'X'
-		&& s[i] != '\0')
-	{
-		//write (1, "$", 1);
-		i++;
-	}
-
-	if (s[i] == 'p')
-	{
-		//write (1, "*", 1);
-		return (ft_putadd_fd(va_arg(arg, void *), 1));
-	}
-	if (s[i] == 'u')
-	{
-		//write (1, "*", 1);
-		return (ft_putuns_fd(va_arg(arg, unsigned int), 1));
-	}
-	return (0);
-}
-
-
-int	ft_printf_test(char *s, ...)
-{
-	size_t	size;
-	int		i;
-	va_list arg;
-
-	size = ft_count_par(s);
+	t = (t_output *)malloc(sizeof(t_output));
+	if (!t)
+		return (-1);
 	va_start(arg, s);
-	i = 0;
-	while (s[i])
+	q[0] = 0;
+	q[1] = 0;
+	while (s[q[0]])
 	{	
-		if (s[i] == '%')
+		if (s[q[0]] == '%')
 		{
-			if (s[i + 1] != '%')
-			{
-				i += ft_putstuff_test(arg, &s[i]);
-			}
-			else
-			{
-				write(1, &s[i], 1);
-				i += 2;
-			}
+			ft_initialise_struct(t);
+			q[0]++;
+			ft_putstuff(arg, s, q, t);
 		}
 		else
 		{
-			write (1, &s[i], 1);
-			i++;
+			q[1] += write (1, &s[q[0]], 1);
+			q[0]++;
 		}
 	}
 	va_end(arg);
-	size = i;
-	return (size);
+	return (q[1]);
 }
 
 int	main(void)
@@ -134,15 +73,17 @@ int	main(void)
 	char			c;
 	char			d;
 	unsigned int	u;
+	int				pf;
+	int				fp;
+	int				num;
+	char			*s = "@@@";
 
 	c = 'a';
 	d = 'b';
+	num = 2147483647;
 	u = 4123456789;
-	printf("printf : -%p--%%--%p--%u-\n", (void *)&c, (void *)&d, u);
-	write(1, "write ", 6);
-	ft_putadd_fd((void *)&c, 1);
-	write(1, "\n", 1);
-	ft_printf_test("ftprint: -%p--%%--%p--%u-\n", (void *)&c, (void *)&d, u);
-	
+	pf = printf("printf : a%pbc%%de%cfg%uhij%sk%+20.15dlm% inop%#Xq%xr\n", (void *)&c, d, u, s, num, 0, u, 42);
+	fp = ft_printf("ftprint: a%pbc%%de%cfg%uhij%sk%+20.15dlm% inop%#Xq%xr\n", (void *)&c, d, u, s, num, 0, u, 42);
+	printf ("pf = %d, fp = %d\n", pf, fp);
 	return (0);
 }
