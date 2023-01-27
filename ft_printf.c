@@ -6,13 +6,13 @@
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:49:23 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/26 18:13:10 by okraus           ###   ########.fr       */
+/*   Updated: 2023/01/27 17:15:29 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
-void	ft_putstuff(va_list arg, char *s, int *q, t_output	*t)
+void	ft_putstuff(va_list arg, const char *s, int *q, t_output *t)
 {
 	ft_prefill_struct(t, &s[q[0]]);
 	while (s[q[0]] != 'c' && s[q[0]] != 's' && s[q[0]] != 'p' && s[q[0]] != 'd'
@@ -38,7 +38,7 @@ void	ft_putstuff(va_list arg, char *s, int *q, t_output	*t)
 	q[0]++;
 }
 
-int	ft_printf(char *s, ...)
+int	ft_printf(const char *s, ...)
 {
 	static int		q[2];
 	va_list			arg;
@@ -82,8 +82,8 @@ int	main(void)
 	d = 'b';
 	num = 2147483647;
 	u = 4123456789;
-	pf = printf("printf : a%pbc%%de%cfg%uhij%sk%+20.15dlm% inop%#Xq%xr\n", (void *)&c, d, u, s, num, 0, u, 42);
-	fp = ft_printf("ftprint: a%pbc%%de%cfg%uhij%sk%+20.15dlm% inop%#Xq%xr\n", (void *)&c, d, u, s, num, 0, u, 42);
+	pf = printf("printf : a%pbc%%de%cfg%uhij%sk%-+20.15dlm% inop%#Xq%xr\n", (void *)&c, d, u, s, num, 0, u, 42);
+	fp = ft_printf("ftprint: a%pbc%%de%cfg%uhij%sk%-+20.15dlm% inop%#Xq%xr\n", (void *)&c, d, u, s, num, 0, u, 42);
 	printf ("pf = %d, fp = %d\n", pf, fp);
 	return (0);
 }

@@ -6,16 +6,23 @@
 #    By: okraus <marvin@42.fr>                      +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/14 13:43:18 by okraus            #+#    #+#              #
-#    Updated: 2023/01/26 10:31:15 by okraus           ###   ########.fr        #
+#    Updated: 2023/01/27 16:52:09 by okraus           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 NAME = libftprintf.a
 SRC = ft_printf.c \
-ft_string_pointer.c \
-ft_printf_utils.c
+	ft_string_pointer.c \
+	ft_printf_utils.c \
+	ft_padding.c \
+	ft_printformat.c \
+	ft_string_hexabig.c \
+	ft_string_hexasmall.c \
+	ft_string_integer.c \
+	ft_string_string.c \
+	ft_string_unsigned.c	
 OBJ = $(SRC:.c=.o)
-INCS = libft.h
+INCS = ft_printf.h
 LIBC = ar rcs
 CC = cc
 CFLAGS = -Wall -Wextra -Werror
@@ -23,7 +30,7 @@ CFLAGS = -Wall -Wextra -Werror
 all: $(NAME)
 
 %.o: %.c $(INCS)
-	@$(cc) $(CFLAGS) -c $(SRC)
+	@$(CC) $(CFLAGS) -c $(SRC)
 
 $(NAME): $(OBJ)
 	$(LIBC) $(NAME) $(OBJ)

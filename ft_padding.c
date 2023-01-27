@@ -6,19 +6,23 @@
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 16:14:02 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/26 18:25:15 by okraus           ###   ########.fr       */
+/*   Updated: 2023/01/27 17:08:37 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libftprintf.h"
+#include "ft_printf.h"
 
 char	*ft_padint(char *s, t_output *t)
 {
 	if (t->padsize && !t->zero)
 	{
-		while ((int)ft_strlen(s) < t->padsize)
+		while ((int)ft_strlen(s) < t->padsize && !t->dash)
 		{
 			s = ft_strjoin(" ", s);
+		}
+		while ((int)ft_strlen(s) < t->padsize && t->dash)
+		{
+			s = ft_strjoin(s, " ");
 		}
 	}
 	return (s);

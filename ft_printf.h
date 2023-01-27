@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   libftprintf.h                                      :+:      :+:    :+:   */
+/*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/26 17:27:14 by okraus           ###   ########.fr       */
+/*   Updated: 2023/01/27 17:15:02 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef LIBFTPRINTF_H
+#ifndef FT_PRINTF_H
 
-# define LIBFTPRINTF_H
+# define FT_PRINTF_H
 # include <stdio.h>
 # include <stdlib.h>
 # include <unistd.h>
@@ -33,8 +33,8 @@ typedef struct s_output
 	int		plus;
 }			t_output;
 
-int			ft_printf(char *s, ...);
-void		ft_putstuff(va_list arg, char *s, int *i, t_output *t);
+int			ft_printf(const char *s, ...);
+void		ft_putstuff(va_list arg, const char *s, int *q, t_output *t);
 int			ft_putchar_fd(char c, int fd);
 int			ft_putuns_fd(unsigned int u, int fd);
 void		ft_putuns2_fd(unsigned int u, int fd);
