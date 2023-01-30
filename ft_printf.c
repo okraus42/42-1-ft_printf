@@ -6,7 +6,7 @@
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:49:23 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/27 17:15:29 by okraus           ###   ########.fr       */
+/*   Updated: 2023/01/30 16:49:38 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,17 +24,23 @@ void	ft_putstuff(va_list arg, const char *s, int *q, t_output *t)
 	else if (s[q[0]] == 'p')
 		q[1] += ft_print_pointer_fd(va_arg(arg, void *), 1);
 	else if (s[q[0]] == 'u')
-		q[1] += ft_putunsigned_fd(va_arg(arg, unsigned int), 1);
+		q[1] += ft_putunsigned_fd(va_arg(arg, unsigned int), 1, t);
 	else if (s[q[0]] == 'c')
-		q[1] += ft_putchar_fd(va_arg(arg, int), 1);
+		q[1] += ft_putchar_fd(va_arg(arg, int), 1, t);
 	else if (s[q[0]] == 's')
-		q[1] += ft_putstring_fd(va_arg(arg, char *), 1);
+		q[1] += ft_putstring_fd(va_arg(arg, char *), 1, t);
 	else if (s[q[0]] == 'd' || s[q[0]] == 'i')
 		q[1] += ft_putinteger_fd(va_arg(arg, int), 1, t);
 	else if (s[q[0]] == 'X')
 		q[1] += ft_puthexabig_fd(va_arg(arg, unsigned int), 1, t);
 	else if (s[q[0]] == 'x')
 		q[1] += ft_puthexasmall_fd(va_arg(arg, unsigned int), 1, t);
+	q[0]++;
+}
+
+void	ft_writestuff(const char *s, int *q)
+{
+	q[1] += write (1, &s[q[0]], 1);
 	q[0]++;
 }
 
@@ -59,12 +65,10 @@ int	ft_printf(const char *s, ...)
 			ft_putstuff(arg, s, q, t);
 		}
 		else
-		{
-			q[1] += write (1, &s[q[0]], 1);
-			q[0]++;
-		}
+			ft_writestuff(s, q);
 	}
 	va_end(arg);
+	free (t);
 	return (q[1]);
 }
 
@@ -81,9 +85,9 @@ int	main(void)
 	c = 'a';
 	d = 'b';
 	num = 2147483647;
-	u = 4123456789;
-	pf = printf("printf : a%pbc%%de%cfg%uhij%sk%-+20.15dlm% inop%#Xq%xr\n", (void *)&c, d, u, s, num, 0, u, 42);
-	fp = ft_printf("ftprint: a%pbc%%de%cfg%uhij%sk%-+20.15dlm% inop%#Xq%xr\n", (void *)&c, d, u, s, num, 0, u, 42);
+	u = 4294967294;
+	pf = printf("printf : a%pbc%%de%5cfg%-20.15uhij%2sk%-+20.15dlm% inop%#20.15Xq%xr\n", (void *)&c, d, u, s, num, 0, u, u);
+	fp = ft_printf("ftprint: a%pbc%%de%5cfg%-20.15uhij%2sk%-+20.15dlm% inop%#20.15Xq%xr\n", (void *)&c, d, u, s, num, 0, u, u);
 	printf ("pf = %d, fp = %d\n", pf, fp);
 	return (0);
 }

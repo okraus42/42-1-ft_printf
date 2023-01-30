@@ -6,13 +6,13 @@
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:02:50 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/27 17:07:49 by okraus           ###   ########.fr       */
+/*   Updated: 2023/01/30 17:00:29 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_printf.h"
 
-static int	ft_hexlen(int h)
+static int	ft_hexlen(unsigned int h)
 {
 	int	i;
 
@@ -57,10 +57,17 @@ int	ft_print_hexasmall_fd(unsigned int h, int fd, t_output *t)
 	i = 0;
 	if (t->hash)
 		s = ft_strjoin("0x", s);
+	if (t->precision || (t->padsize && t->zero))
+	{
+		s = ft_precint(s, t);
+	}
+	if (t->padsize)
+		s = ft_padint(s, t);
 	while (s[i])
 	{
 		i += write(fd, &s[i], 1);
 	}
+	free(s);
 	return (i);
 }
 

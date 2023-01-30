@@ -6,7 +6,7 @@
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/27 17:15:02 by okraus           ###   ########.fr       */
+/*   Updated: 2023/01/30 15:43:33 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,9 @@ typedef struct s_output
 
 int			ft_printf(const char *s, ...);
 void		ft_putstuff(va_list arg, const char *s, int *q, t_output *t);
-int			ft_putchar_fd(char c, int fd);
+void		ft_writestuff(const char *s, int *q);
+int			ft_putchar_fd(char c, int fd, t_output *t);
+int			ft_print_char_fd(char s, int fd, t_output *t);
 int			ft_putuns_fd(unsigned int u, int fd);
 void		ft_putuns2_fd(unsigned int u, int fd);
 void		ft_putnbr_fd(int n, int fd);
@@ -43,10 +45,10 @@ char		*ft_string_pointer(void *mem);
 int			ft_putpointer_fd(void *mem, int fd);
 int			ft_print_pointer_fd(void *mem, int fd);
 size_t		ft_strlen(const char *s);
-int			ft_putstring_fd(char *s, int fd);
-int			ft_print_string_fd(char *s, int fd);
-int			ft_putunsigned_fd(unsigned int u, int fd);
-int			ft_print_unsigned_fd(unsigned int u, int fd);
+int			ft_putstring_fd(char *s, int fd, t_output *t);
+int			ft_print_string_fd(char *s, int fd, t_output *t);
+int			ft_putunsigned_fd(unsigned int u, int fd, t_output *t);
+int			ft_print_unsigned_fd(unsigned int u, int fd, t_output *t);
 char		*ft_string_unsigned(unsigned int u);
 int			ft_putinteger_fd(int d, int fd, t_output *t);
 int			ft_print_integer_fd(int d, int fd, t_output *t);

@@ -6,7 +6,7 @@
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:02:50 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/27 17:06:15 by okraus           ###   ########.fr       */
+/*   Updated: 2023/01/30 16:53:57 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,8 @@ char	*ft_string_unsigned(unsigned int u)
 	if (str == NULL)
 		return (NULL);
 	str[i + 1] = 0;
+	if (u == 0)
+		str[i] = '0';
 	while (u != 0)
 	{
 		str[i] = "0123456789"[u % 10];
@@ -46,25 +48,32 @@ char	*ft_string_unsigned(unsigned int u)
 	return (str);
 }
 
-int	ft_print_unsigned_fd(unsigned int u, int fd)
+int	ft_print_unsigned_fd(unsigned int u, int fd, t_output *t)
 {
 	char	*s;
 	int		i;
 
 	s = ft_string_unsigned(u);
 	i = 0;
+	if (t->precision || (t->padsize && t->zero))
+	{
+		s = ft_precint(s, t);
+	}
+	if (t->padsize)
+		s = ft_padint(s, t);
 	while (s[i])
 	{
 		i += write(fd, &s[i], 1);
 	}
+	free(s);
 	return (i);
 }
 
-int	ft_putunsigned_fd(unsigned int u, int fd)
+int	ft_putunsigned_fd(unsigned int u, int fd, t_output *t)
 {
 	int		i;
 
 	i = 0;
-	i = ft_print_unsigned_fd(u, fd);
+	i = ft_print_unsigned_fd(u, fd, t);
 	return (i);
 }

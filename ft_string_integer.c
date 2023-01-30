@@ -6,7 +6,7 @@
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:02:50 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/27 17:06:19 by okraus           ###   ########.fr       */
+/*   Updated: 2023/01/28 11:01:26 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	ft_print_integer_fd(int d, int fd, t_output	*t)
 	{
 		i += write(fd, &s[i], 1);
 	}
+	free(s);
 	return (i);
 }
 
