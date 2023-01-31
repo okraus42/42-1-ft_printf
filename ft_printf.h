@@ -6,7 +6,7 @@
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/30 15:43:33 by okraus           ###   ########.fr       */
+/*   Updated: 2023/01/31 15:59:02 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int			ft_putuns_fd(unsigned int u, int fd);
 void		ft_putuns2_fd(unsigned int u, int fd);
 void		ft_putnbr_fd(int n, int fd);
 char		*ft_string_pointer(void *mem);
-int			ft_putpointer_fd(void *mem, int fd);
+int			ft_putpointer_fd(void *mem, int fd, t_output *t);
 int			ft_print_pointer_fd(void *mem, int fd);
 size_t		ft_strlen(const char *s);
 int			ft_putstring_fd(char *s, int fd, t_output *t);
@@ -62,7 +62,9 @@ char		*ft_string_hexasmall(unsigned int h);
 void		ft_initialise_struct(t_output *t);
 void		ft_prefill_struct(t_output *t, const char *s);
 int			ft_get_num(t_output *t, const char *s, int i);
-char		*ft_strjoin(char const *s1, char const *s2);
+char		*ft_strjoin_freeleft(char *s1, char const *s2);
+char		*ft_strjoin_freeright(char const *s1, char *s2);
+char		*ft_padchar(char *s, int len, t_output *t);
 char		*ft_padint(char *s, t_output *t);
 char		*ft_precint(char *s, t_output *t);
 

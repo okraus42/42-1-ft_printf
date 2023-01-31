@@ -6,7 +6,7 @@
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:49:23 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/30 16:49:38 by okraus           ###   ########.fr       */
+/*   Updated: 2023/01/31 17:17:50 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	ft_putstuff(va_list arg, const char *s, int *q, t_output *t)
 	if (s[q[0]] == '%')
 		q[1] += write(1, &s[q[0]], 1);
 	else if (s[q[0]] == 'p')
-		q[1] += ft_print_pointer_fd(va_arg(arg, void *), 1);
+		q[1] += ft_putpointer_fd(va_arg(arg, void *), 1, t);
 	else if (s[q[0]] == 'u')
 		q[1] += ft_putunsigned_fd(va_arg(arg, unsigned int), 1, t);
 	else if (s[q[0]] == 'c')
@@ -88,6 +88,12 @@ int	main(void)
 	u = 4294967294;
 	pf = printf("printf : a%pbc%%de%5cfg%-20.15uhij%2sk%-+20.15dlm% inop%#20.15Xq%xr\n", (void *)&c, d, u, s, num, 0, u, u);
 	fp = ft_printf("ftprint: a%pbc%%de%5cfg%-20.15uhij%2sk%-+20.15dlm% inop%#20.15Xq%xr\n", (void *)&c, d, u, s, num, 0, u, u);
+	printf ("pf = %d, fp = %d\n", pf, fp);
+	pf = printf("%.3d\n", -1234);
+	fp = ft_printf("%.3d\n", -1234);
+	printf ("pf = %d, fp = %d\n", pf, fp);
+	pf = printf("%-9sScience!\n", "Aperture");
+	fp = ft_printf("%-9sScience!\n", "Aperture");
 	printf ("pf = %d, fp = %d\n", pf, fp);
 	return (0);
 }

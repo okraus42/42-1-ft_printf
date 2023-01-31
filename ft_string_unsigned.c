@@ -6,7 +6,7 @@
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:02:50 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/30 16:53:57 by okraus           ###   ########.fr       */
+/*   Updated: 2023/01/31 16:42:23 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_print_unsigned_fd(unsigned int u, int fd, t_output *t)
 
 	s = ft_string_unsigned(u);
 	i = 0;
-	if (t->precision || (t->padsize && t->zero))
+	if (t->precision || (t->padsize && t->zero && !t->precision))
 	{
 		s = ft_precint(s, t);
 	}
@@ -74,6 +74,8 @@ int	ft_putunsigned_fd(unsigned int u, int fd, t_output *t)
 	int		i;
 
 	i = 0;
+	if (!u && t->period && !t->precision)
+		return (0);
 	i = ft_print_unsigned_fd(u, fd, t);
 	return (i);
 }

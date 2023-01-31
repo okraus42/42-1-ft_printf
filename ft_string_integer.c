@@ -6,7 +6,7 @@
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:02:50 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/28 11:01:26 by okraus           ###   ########.fr       */
+/*   Updated: 2023/01/31 16:42:39 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,14 +63,14 @@ int	ft_print_integer_fd(int d, int fd, t_output	*t)
 
 	s = ft_string_integer(d);
 	i = 0;
-	if (t->precision || (t->padsize && t->zero))
+	if (t->precision || (t->padsize && t->zero && !t->precision))
 	{
 		s = ft_precint(s, t);
 	}
 	if (t->plus && d >= 0)
-		s = ft_strjoin("+", s);
+		s = ft_strjoin_freeright("+", s);
 	else if (t->space && d >= 0)
-		s = ft_strjoin(" ", s);
+		s = ft_strjoin_freeright(" ", s);
 	if (t->padsize)
 		s = ft_padint(s, t);
 	while (s[i])
@@ -86,6 +86,8 @@ int	ft_putinteger_fd(int d, int fd, t_output *t)
 	int		i;
 
 	i = 0;
+	if (!d && t->period && !t->precision)
+		return (0);
 	i = ft_print_integer_fd(d, fd, t);
 	return (i);
 }

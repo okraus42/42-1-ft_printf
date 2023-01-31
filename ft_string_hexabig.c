@@ -6,7 +6,7 @@
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:02:50 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/30 17:00:19 by okraus           ###   ########.fr       */
+/*   Updated: 2023/01/31 16:42:48 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,9 +55,9 @@ int	ft_print_hexabig_fd(unsigned int h, int fd, t_output *t)
 
 	s = ft_string_hexabig(h);
 	i = 0;
-	if (t->hash)
-		s = ft_strjoin("0X", s);
-	if (t->precision || (t->padsize && t->zero))
+	if (t->hash && h)
+		s = ft_strjoin_freeright("0X", s);
+	if (t->precision || (t->padsize && t->zero && !t->precision))
 	{
 		s = ft_precint(s, t);
 	}
@@ -76,6 +76,8 @@ int	ft_puthexabig_fd(unsigned int h, int fd, t_output *t)
 	int		i;
 
 	i = 0;
+	if (!h && t->period && !t->precision)
+		return (0);
 	i = ft_print_hexabig_fd(h, fd, t);
 	return (i);
 }

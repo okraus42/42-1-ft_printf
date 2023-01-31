@@ -6,7 +6,7 @@
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:02:50 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/28 11:03:23 by okraus           ###   ########.fr       */
+/*   Updated: 2023/01/31 17:54:03 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ int	ft_print_pointer_fd(void *mem, int fd)
 	if (mem == NULL)
 	{
 		write(fd, "(nil)", 5);
+		free (s);
 		return (5);
 	}
 	write(fd, "0x", 2);
@@ -69,11 +70,27 @@ int	ft_print_pointer_fd(void *mem, int fd)
 	return (i + 2);
 }
 
-int	ft_putpointer_fd(void *mem, int fd)
+int	ft_putpointer_fd(void *mem, int fd, t_output *t)
 {
 	int		i;
+	int		len;
+	char	*str;
 
 	i = 0;
-	i = ft_print_pointer_fd(mem, fd);
-	return (i + 2);
+	len = 5;
+	if (mem)
+		len = 14;
+	str = malloc(sizeof(char));
+	str[0] = 0;
+	if (t->dash)
+		i += ft_print_pointer_fd(mem, fd);
+	if (t->padsize > len)
+		str = ft_padchar(str, len, t);
+	len = 0;
+	while (str[len])
+		len += write(fd, &str[len], 1);
+	if (!t->dash)
+		i += ft_print_pointer_fd(mem, fd);
+	free(str);
+	return (i + len);
 }
