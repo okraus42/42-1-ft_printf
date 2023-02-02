@@ -6,7 +6,7 @@
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 13:30:53 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/27 17:06:28 by okraus           ###   ########.fr       */
+/*   Updated: 2023/02/02 15:59:01 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,18 @@ static int	ft_check_end(char c)
 		return (1);
 }
 
-void	ft_dash_struct(t_output *t)
+void	ft_dash_struct(t_output *t, int n)
 {
-	t->dash = 1;
-	t->zero = 0;
+	if (n == 1)
+	{
+		t->dash = 1;
+		t->zero = 0;
+	}
+	if (n == 2)
+	{
+		t->period = 1;
+		t->zero = 0;
+	}
 }
 
 void	ft_initialise_struct(t_output *t)
@@ -79,9 +87,9 @@ void	ft_prefill_struct(t_output *t, const char *s)
 		if (s[i] == '+')
 			t->plus = 1;
 		if (s[i] == '-')
-			ft_dash_struct(t);
+			ft_dash_struct(t, 1);
 		if (s[i] == '.')
-			t->period = 1;
+			ft_dash_struct(t, 2);
 		if (s[i] == '0' && !t->dash)
 			t->zero = 1;
 		if (s[i] > '0' && s[i] <= '9')

@@ -6,7 +6,7 @@
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 16:14:02 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/31 17:18:09 by okraus           ###   ########.fr       */
+/*   Updated: 2023/02/02 16:14:46 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,10 @@ char	*ft_precint(char *s, t_output *t)
 	}
 	if (sign == -1)
 	{
-		s = ft_strjoin_freeright("-", s);
+		if (t->zero)
+			s[0] = '-';
+		else
+			s = ft_strjoin_freeright("-", s);
 	}
 	return (s);
 }

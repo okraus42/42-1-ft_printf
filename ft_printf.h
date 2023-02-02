@@ -6,7 +6,7 @@
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/31 15:59:02 by okraus           ###   ########.fr       */
+/*   Updated: 2023/02/02 15:44:59 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,6 @@ void		ft_putstuff(va_list arg, const char *s, int *q, t_output *t);
 void		ft_writestuff(const char *s, int *q);
 int			ft_putchar_fd(char c, int fd, t_output *t);
 int			ft_print_char_fd(char s, int fd, t_output *t);
-int			ft_putuns_fd(unsigned int u, int fd);
-void		ft_putuns2_fd(unsigned int u, int fd);
-void		ft_putnbr_fd(int n, int fd);
 char		*ft_string_pointer(void *mem);
 int			ft_putpointer_fd(void *mem, int fd, t_output *t);
 int			ft_print_pointer_fd(void *mem, int fd);
@@ -60,6 +57,7 @@ int			ft_puthexasmall_fd(unsigned int h, int fd, t_output *t);
 int			ft_print_hexasmall_fd(unsigned int h, int fd, t_output *t);
 char		*ft_string_hexasmall(unsigned int h);
 void		ft_initialise_struct(t_output *t);
+void		ft_dash_struct(t_output *t, int n);
 void		ft_prefill_struct(t_output *t, const char *s);
 int			ft_get_num(t_output *t, const char *s, int i);
 char		*ft_strjoin_freeleft(char *s1, char const *s2);

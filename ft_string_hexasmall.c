@@ -6,7 +6,7 @@
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:02:50 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/31 16:42:31 by okraus           ###   ########.fr       */
+/*   Updated: 2023/02/02 15:32:40 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,12 @@ int	ft_puthexasmall_fd(unsigned int h, int fd, t_output *t)
 	int		i;
 
 	i = 0;
+	if (!h && t->period && !t->precision && t->padsize)
+	{
+		while (i < t->padsize)
+			i += write(1, " ", 1);
+		return (i);
+	}
 	if (!h && t->period && !t->precision)
 		return (0);
 	i = ft_print_hexasmall_fd(h, fd, t);

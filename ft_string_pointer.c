@@ -6,7 +6,7 @@
 /*   By: okraus <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/26 10:02:50 by okraus            #+#    #+#             */
-/*   Updated: 2023/01/31 17:54:03 by okraus           ###   ########.fr       */
+/*   Updated: 2023/02/02 15:17:58 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ int	ft_putpointer_fd(void *mem, int fd, t_output *t)
 	i = 0;
 	len = 5;
 	if (mem)
-		len = 14;
+		len = ft_memlen((uintptr_t)mem) + 2;
 	str = malloc(sizeof(char));
 	str[0] = 0;
 	if (t->dash)
