@@ -40,6 +40,8 @@ clean:
 
 fclean: clean
 	@rm -f $(NAME)
+	
+bonus: all
 
 re: fclean all
 
