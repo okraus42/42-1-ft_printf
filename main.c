@@ -21,6 +21,7 @@ int	main(void)
 	int				fp;
 	int				num;
 	char			*s = "@@@";
+	char			*s2 = NULL;
 
 	c = 'a';
 	d = 'b';
@@ -34,6 +35,9 @@ int	main(void)
 	printf ("pf = %d, fp = %d\n", pf, fp);
 	pf = printf("%-9sScience!\n", "Aperture");
 	fp = ft_printf("%-9sScience!\n", "Aperture");
+	printf ("pf = %d, fp = %d\n", pf, fp);
+	pf = printf("%8p-%8s\n", NULL, s2);
+	fp = ft_printf("%8p-%8s\n", NULL, s2);
 	printf ("pf = %d, fp = %d\n", pf, fp);
 	return (0);
 }
