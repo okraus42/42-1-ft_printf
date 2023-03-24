@@ -27,6 +27,7 @@ int	main(void)
 	d = 'b';
 	num = 0x7FFFFFFF;
 	u = 0xFFFFFFFF;
+	/*uncomment for bonus
 	pf = printf("printf : a%pbc%%de%5cfg%-20.15uhij%2sk%-+20.15dlm% inop%#20.15Xq%#xr\n", (void *)&c, d, u, s, num, 0, u, u);
 	fp = ft_printf("ftprint: a%pbc%%de%5cfg%-20.15uhij%2sk%-+20.15dlm% inop%#20.15Xq%#xr\n", (void *)&c, d, u, s, num, 0, u, u);
 	printf ("pf = %d, fp = %d\n", pf, fp);
@@ -39,15 +40,15 @@ int	main(void)
 	pf = printf("%8p-%8s\n", NULL, s2);
 	fp = ft_printf("%8p-%8s\n", NULL, s2);
 	printf ("pf = %d, fp = %d\n", pf, fp);
-
+	*/
 	pf = printf("%i|%i|%i\n", -2147483648, 0, 0x7FFFFFFF);
 	fp = ft_printf("%i|%i|%i\n", -2147483648, 0, 0x7FFFFFFF);
 	printf ("pf = %d, fp = %d\n", pf, fp);
 	pf = printf("%p-%s\n", NULL, s2);
 	fp = ft_printf("%p-%s\n", NULL, s2);
 	printf ("pf = %d, fp = %d\n", pf, fp);
-	pf = printf("printf : a%pbc%%de%cfg%uhij%2sk%dlm%inop%Xq%xr\n", (void *)&c, d, u, s, num, 0, u, u);
-	fp = ft_printf("ftprint: a%pbc%%de%cfg%uhij%2sk%dlm%inop%Xq%xr\n", (void *)&c, d, u, s, num, 0, u, u);
+	pf = printf("printf : a%pbc%%de%cfg%uhij%sk%dlm%inop%Xq%xr\n", (void *)&c, d, u, s, num, 0, u, u);
+	fp = ft_printf("ftprint: a%pbc%%de%cfg%uhij%sk%dlm%inop%Xq%xr\n", (void *)&c, d, u, s, num, 0, u, u);
 	printf ("pf = %d, fp = %d\n", pf, fp);
 	return (0);
 }
