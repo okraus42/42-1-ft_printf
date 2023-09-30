@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/09/29 15:55:58 by okraus           ###   ########.fr       */
+/*   Updated: 2023/09/30 17:54:50 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,38 +54,60 @@ typedef enum e_print_flag
 	FLAG4 = 0x2000,					//
 	FLAG5 = 0x4000,					//
 	FLAG6 = 0x8000,					//
-	LOWERCASE_HH = 0x10000,			//
-	LOWERCASE_H = 0x20000,			//
-	LOWERCASE_L = 0x40000,			//
-	LOWERCASE_LL = 0x80000,			//
-	UPPERCASE_L = 0x100000,			//
-	LOWERCASE_J = 0x200000,			//
-	LOWERCASE_T = 0x400000,			//
-	LOWERCASE_I = 0x1000000,		//integer
-	LOWERCASE_D = 0x2000000,		//integer, decimal
-	CONVERSION_INT = 0x3000000,		//i, d
-	LOWERCASE_O = 0x4000000,		//octal
-	LOWERCASE_U = 0x8000000,		//unsigned
-	LOWERCASE_X = 0x10000000,		//hexadecimal
-	UPPERCASE_X = 0x20000000,		//HEXADECIMAL
-	LOWERCASE_E = 0x40000000,		//
-	UPPERCASE_E = 0x80000000,		//
-	LOWERCASE_F = 0x100000000,		//
-	UPPERCASE_F = 0x200000000,		//
-	LOWERCASE_G = 0x400000000,		//
-	UPPERCASE_G = 0x800000000,		//
-	LOWERCASE_A = 0x1000000000,		//
-	UPPERCASE_A = 0x2000000000,		//
-	LOWERCASE_C = 0x4000000000,		//char
-	LOWERCASE_S = 0x8000000000,		//string
-	LOWERCASE_P = 0x1000000000,		//pointer
-	UPPERCASE_C = 0x20000000000,	//colours and formating
-	LOWERCASE_B = 0x40000000000,	//binary
-	UPPERCASE_B = 0x80000000000,	//bases
-	UPPERCASE_P = 0x100000000000	//dunno?
-}	t_flag;
+}	t_print_flag;
 
-typedef
+typedef enum e_print_type_flag
+{
+	LOWERCASE_HH = 0x1,			//
+	LOWERCASE_H = 0x2,			//
+	LOWERCASE_L = 0x4,			//
+	LOWERCASE_LL = 0x8,			//
+	UPPERCASE_L = 0x10,			//
+	LOWERCASE_J = 0x20,			//
+	LOWERCASE_T = 0x40,			//
+	LOWERCASE_I = 0x100,		//integer
+	LOWERCASE_D = 0x200,		//integer, decimal
+	CONVERSION_INT = 0x300,		//i, d
+	LOWERCASE_O = 0x400,		//octal
+	LOWERCASE_U = 0x800,		//unsigned
+	LOWERCASE_X = 0x1000,		//hexadecimal
+	UPPERCASE_X = 0x2000,		//HEXADECIMAL
+	LOWERCASE_E = 0x4000,		//
+	UPPERCASE_E = 0x8000,		//
+	LOWERCASE_F = 0x10000,		//
+	UPPERCASE_F = 0x20000,		//
+	LOWERCASE_G = 0x40000,		//
+	UPPERCASE_G = 0x80000,		//
+	LOWERCASE_A = 0x100000,		//
+	UPPERCASE_A = 0x200000,		//
+	LOWERCASE_C = 0x400000,		//char
+	LOWERCASE_S = 0x800000,		//string
+	LOWERCASE_P = 0x100000,		//pointer
+	UPPERCASE_C = 0x2000000,	//colours and formating
+	LOWERCASE_B = 0x4000000,	//binary
+	UPPERCASE_B = 0x8000000,	//bases
+	UPPERCASE_P = 0x10000000	//dunno?
+}	t_type_flag;
+
+typedef enum e_print_value_flag
+{
+	CHAR = 0x1,					//
+	SHORT = 0x2,				//
+	INT = 0x4,					//
+	UNSIGNED_INT = 0x8,			//
+	VOID_POINTER = 0x10,		//
+	CHAR_POINTER = 0x20,		//
+}	t_value_flag;
+
+typedef union u_value
+{
+	char*			c;
+	short			sh;
+	int				i;
+	unsigned int	ui;
+	char			*str;
+	void			*ptr;
+}	t_value;
 
 // STRUCTURES
 // LIBFT structure
@@ -97,6 +119,18 @@ typedef struct s_list
 }					t_list;
 
 // FT_PRINTF structure
+
+typedef struct s_pf_info
+{
+	const char	*orig;
+	char		*out;
+	int			type;		//0 - just text, 1 - %[stuff]
+	int			outlen;
+	int			flag;
+	int			type_flag;
+	int			value_flag;
+	t_value		value;
+}				t_pf_info;
 
 typedef struct s_output
 {
