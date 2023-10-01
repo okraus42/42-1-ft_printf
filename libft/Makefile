@@ -6,7 +6,7 @@
 #    By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/14 13:43:18 by okraus            #+#    #+#              #
-#    Updated: 2023/08/17 14:59:52 by okraus           ###   ########.fr        #
+#    Updated: 2023/10/01 11:48:54 by okraus           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -126,21 +126,19 @@ SRC_GNL		=	get_next_line \
 
 # ft_printf functions
 
-SRC_PF		= 	ft_colour_1 \
-				ft_colour_2 \
-				ft_padding \
-				ft_printf_utils \
-				ft_printf \
-				ft_printformat \
-				ft_string_basebig \
-				ft_string_binocthex \
-				ft_string_colour \
-				ft_string_hexabig \
-				ft_string_hexasmall \
-				ft_string_integer \
-				ft_string_pointer \
-				ft_string_string \
-				ft_string_unsigned
+SRC_PF		= 	ft_printf
+#				ft_colour_1 \
+#				ft_colour_2 \
+#				ft_padding \
+#				ft_printf_utils \
+#				ft_printformat \
+#				ft_string_basebig \
+#				ft_string_binocthex \
+#				ft_string_colour \
+#				ft_string_hexabig \
+#				ft_string_hexasmall \
+#				ft_string_string \
+#				ft_string_unsigned
 
 # Formating
 

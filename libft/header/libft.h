@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/09/30 17:54:50 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/01 16:50:51 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,24 @@
 
 // FT_PRINTF definitions
 # define F_TYPES	"cspdiuxXbBPC%"
-# define F_FLAGS	"0#-+. 'I^!"
-# define F_MODIFIER	"hlLjzt"
+# define F_FLAGS	"0#-+ 'I"
+# define F_NUMBERS	"123456789*"
+# define F_MODIFIER	"hlLz"
 # define BASE_CAP	"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 # define BASE_SML	"0123456789abcdefghijklmnopqrstuvwxyz"
 
 typedef enum e_print_flag
 {
-	ZERO = 0x1,						//
-	HASHTAG = 0x2,					//
-	MINUS = 0x4,					//
-	PLUS = 0x8,						//
-	SPACE = 0x10,					//
-	PERIOD = 0x20,					//
-	APOSTROPHE = 0x40,				//
-	UPPERCASE_I = 0x80,				//
-	CIRCUMFLEX = 0x100,				//
-	EXCLAMATION_MARK = 0x200,		//
+	ZERO = 0x1,						// The value should be zero padded.  For d, i, o, u, x, X, a, A, e, E, f, F, g, and G conversions, the converted value is padded on the left with zeros rather than blanks.  If the 0 and - flags both appear, the 0 flag is ignored.  If a precision is given with an integer conversion (d, i, o, u, x, and X), the 0 flag is ignored.
+	HASHTAG = 0x2,					// The value should be converted to an "alternate form".  For o conversions, the first character of the output string is made zero (by prefixing a 0 if it was not zero already). For x and X conversions, a nonzero result has the string "0x" (or "0X" for X conversions) prepended to it.  For a, A, e, E, f, F, g, and G conversions, the result will always contain a decimal point, even if no digits follow it (normally, a decimal point appears in the results of those conversions only if a digit follows).  For g and G conversions, trailing zeros are not removed from the result as they would otherwise be.
+	MINUS = 0x4,					// The converted value is to be left adjusted on the field boundary.  (The default is right justification.)  The converted value is padded on the right with blanks, rather than on the left with blanks or zeros.  A - overrides a 0 if both are given.
+	PLUS = 0x8,						// A sign (+ or -) should always be placed before a number produced by a signed conversion.  By default, a sign is used only for negative numbers.  A + overrides a space if both are used.
+	SPACE = 0x10,					// (a space) A blank should be left before a positive number (or empty string) produced by a signed conversion.
+	APOSTROPHE = 0x20,				// For decimal conversion (i, d, u, f, F, g, G) the output is to be grouped with thousands' grouping characters if the locale information indicates any.
+	UPPERCASE_I = 0x40,				// ignored for now
+	FLAGA = 0x80,					//
+	FLAGB = 0x100,					//
+	FLAGC = 0x200,					//
 	FLAG1 = 0x400,					//
 	FLAG2 = 0x800,					//
 	FLAG3 = 0x1000,					//
@@ -56,22 +57,56 @@ typedef enum e_print_flag
 	FLAG6 = 0x8000,					//
 }	t_print_flag;
 
+//    Field width
+//        An optional decimal digit string (with nonzero first digit)
+//        specifying a minimum field width.  If the converted value has
+//        fewer characters than the field width, it will be padded with
+//        spaces on the left (or right, if the left-adjustment flag has
+//        been given).  Instead of a decimal digit string one may write "*"
+//        or "*m$" (for some decimal integer m) to specify that the field
+//        width is given in the next argument, or in the m-th argument,
+//        respectively, which must be of type int.  A negative field width
+//        is taken as a '-' flag followed by a positive field width.  In no
+//        case does a nonexistent or small field width cause truncation of
+//        a field; if the result of a conversion is wider than the field
+//        width, the field is expanded to contain the conversion result.
+
+//    Precision
+//        An optional precision, in the form of a period ('.')  followed by
+//        an optional decimal digit string.  Instead of a decimal digit
+//        string one may write "*" or "*m$" (for some decimal integer m) to
+//        specify that the precision is given in the next argument, or in
+//        the m-th argument, respectively, which must be of type int.  If
+//        the precision is given as just '.', the precision is taken to be
+//        zero.  A negative precision is taken as if the precision were
+//        omitted.  This gives the minimum number of digits to appear for
+//        d, i, o, u, x, and X conversions, the number of digits to appear
+//        after the radix character for a, A, e, E, f, and F conversions,
+//        the maximum number of significant digits for g and G conversions,
+//        or the maximum number of characters to be printed from a string
+//        for s and S conversions.
+
 typedef enum e_print_type_flag
 {
-	LOWERCASE_HH = 0x1,			//
-	LOWERCASE_H = 0x2,			//
-	LOWERCASE_L = 0x4,			//
-	LOWERCASE_LL = 0x8,			//
-	UPPERCASE_L = 0x10,			//
-	LOWERCASE_J = 0x20,			//
-	LOWERCASE_T = 0x40,			//
+	LOWERCASE_HH = 0x1,			// A following integer conversion corresponds to a signed char or unsigned char argument,
+	LOWERCASE_H = 0x2,			// A following integer conversion corresponds to a short or unsigned short argument
+	LOWERCASE_L = 0x4,			// A following integer conversion corresponds to a long or unsigned long argument
+	LOWERCASE_LL = 0x8,			// A following integer conversion corresponds to a long long or unsigned long long argument,
+	UPPERCASE_L = 0x10,			// ignored for now A following a, A, e, E, f, F, g, or G conversion corresponds to a long double argument.  (C99 allows %LF, but SUSv2 does not.)
+	LLL = 0x18,					//L or ll
+	LOWERCASE_Z = 0x20,			// A following integer conversion corresponds to a size_t or ssize_t argument
+	LOWERCASE_J = 0x40,			// ignored for now  A following integer conversion corresponds to an intmax_t or uintmax_t argument,
+	LOWERCASE_T = 0x80,			// ignored for now A following integer conversion corresponds to a ptrdiff_t argument,
+	LENGTH_MODIFIER = 0xFF,		// bit mask to see if any length modification takes place
 	LOWERCASE_I = 0x100,		//integer
 	LOWERCASE_D = 0x200,		//integer, decimal
-	CONVERSION_INT = 0x300,		//i, d
+	SIGNED_INT = 0x300,			//integer (i, d)
 	LOWERCASE_O = 0x400,		//octal
 	LOWERCASE_U = 0x800,		//unsigned
 	LOWERCASE_X = 0x1000,		//hexadecimal
 	UPPERCASE_X = 0x2000,		//HEXADECIMAL
+	UNSIGNED_INT = 0x3C00,		//unsigned int (ouxX)
+	CONVERSION_INT = 0x3F00,	// "integer conversion" stands for d, i, o, u, x, or X
 	LOWERCASE_E = 0x4000,		//
 	UPPERCASE_E = 0x8000,		//
 	LOWERCASE_F = 0x10000,		//
@@ -80,33 +115,53 @@ typedef enum e_print_type_flag
 	UPPERCASE_G = 0x80000,		//
 	LOWERCASE_A = 0x100000,		//
 	UPPERCASE_A = 0x200000,		//
+	CONVERSION_FLOAT = 0x3FC00,	// a, A, e, E, f, F, g, or G
 	LOWERCASE_C = 0x400000,		//char
 	LOWERCASE_S = 0x800000,		//string
-	LOWERCASE_P = 0x100000,		//pointer
+	LOWERCASE_P = 0x1000000,	//pointer
 	UPPERCASE_C = 0x2000000,	//colours and formating
-	LOWERCASE_B = 0x4000000,	//binary
-	UPPERCASE_B = 0x8000000,	//bases
-	UPPERCASE_P = 0x10000000	//dunno?
+	LOWERCASE_B = 0x4000000,	//binary unsigned int
+	UPPERCASE_B = 0x8000000,	//bases unsigned int
+	UPPERCASE_P = 0x10000000,	//dunno?
+	PERCENTAGE = 0x20000000		// percentage
 }	t_type_flag;
 
 typedef enum e_print_value_flag
 {
-	CHAR = 0x1,					//
-	SHORT = 0x2,				//
-	INT = 0x4,					//
-	UNSIGNED_INT = 0x8,			//
-	VOID_POINTER = 0x10,		//
-	CHAR_POINTER = 0x20,		//
+	SIGNED_CHAR = 0x1,			//
+	UNSIGNED_CHAR = 0x2,		//
+	SIGNED_SHORT = 0x4,			//
+	UNSIGNED_SHORT = 0x8,		//
+	INT = 0x10,					//
+	UNSIGNED_INT = 0x20,		//
+	LONG = 0x40,				//
+	UNSIGNED_LONG = 0x80,		//
+	LONG_LONG = 0x100,			//
+	UNSIGNED_LONG_LONG = 0x200,	//
+	DOUBLE = 0x400,				//
+	LONG_DOUBLE = 0x800,		//
+	SIZE_T = 0x1000,			//
+	CHAR_POINTER = 0x2000,		//
+	VOID_POINTER = 0x4000,		//
 }	t_value_flag;
 
 typedef union u_value
 {
-	char*			c;
-	short			sh;
-	int				i;
-	unsigned int	ui;
-	char			*str;
-	void			*ptr;
+	signed char			sc;
+	unsigned char		uc;
+	signed short		ss;
+	unsigned short		us;
+	int					i;
+	unsigned int		ui;
+	long				l;
+	unsigned long		ul;
+	long long			ll;
+	unsigned long long	ull;
+	double				d;
+	long double			ld;
+	size_t				st;
+	char				*s;
+	void				*p;
 }	t_value;
 
 // STRUCTURES
@@ -122,14 +177,16 @@ typedef struct s_list
 
 typedef struct s_pf_info
 {
-	const char	*orig;
-	char		*out;
-	int			type;		//0 - just text, 1 - %[stuff]
-	int			outlen;
-	int			flag;
-	int			type_flag;
-	int			value_flag;
-	t_value		value;
+	const char		*orig;
+	char			*out;
+	int				type;		//0 - just text, 1 - %[stuff]
+	int				outlen;
+	int				flag;
+	int				type_flag;
+	int				value_flag;
+	unsigned int	field_width;
+	unsigned int	precision;
+	t_value			value;
 }				t_pf_info;
 
 typedef struct s_output
@@ -273,55 +330,55 @@ char			*ft_strjoin_gnl(char *s1, char *s2);
 
 // FT_PRINTF prototypes
 
-int				ft_printf_fd(int fd, const char *s, ...);
+//int				ft_printf_fd(int fd, const char *s, ...);
 int				ft_printf(const char *s, ...);
-void			ft_putstuff(va_list arg, const char *s, int *q, t_output *t);
-void			ft_writestuff(int fd, const char *s, int *q);
-int				ft_pf_putchar_fd(char c, int fd, t_output *t);
-int				ft_print_char_fd(char s, int fd, t_output *t);
-char			*ft_string_pointer(void *mem);
-int				ft_putpointer_fd(void *mem, int fd, t_output *t);
-int				ft_print_pointer_fd(void *mem, int fd);
-int				ft_putstring_fd(char *s, int fd, t_output *t);
-int				ft_print_string_fd(char *s, int fd, t_output *t);
-int				ft_putunsigned_fd(unsigned int u, int fd, t_output *t);
-int				ft_print_unsigned_fd(unsigned int u, int fd, t_output *t);
-char			*ft_string_unsigned(unsigned int u);
-int				ft_putinteger_fd(int d, int fd, t_output *t);
-int				ft_print_integer_fd(int d, int fd, t_output *t);
-char			*ft_string_integer(int d);
-int				ft_puthexabig_fd(unsigned int h, int fd, t_output *t);
-int				ft_print_hexabig_fd(unsigned int h, int fd, t_output *t);
-char			*ft_string_hexabig(unsigned int h);
-int				ft_puthexasmall_fd(unsigned int h, int fd, t_output *t);
-int				ft_print_hexasmall_fd(unsigned int h, int fd, t_output *t);
-char			*ft_string_hexasmall(unsigned int h);
-void			ft_initialise_struct(t_output *t);
-void			ft_dash_struct(t_output *t, int n);
-void			ft_prefill_struct(t_output *t, const char *s);
-int				ft_get_num(t_output *t, const char *s, int i);
-char			*ft_strjoin_freeleft(char *s1, char const *s2);
-char			*ft_strjoin_freeright(char const *s1, char *s2);
-char			*ft_padchar(char *s, int len, t_output *t);
-char			*ft_padint(char *s, t_output *t);
-char			*ft_precint(char *s, t_output *t);
-int				ft_putbasebig_fd(unsigned int b, int fd, t_output *t);
-int				ft_print_basebig_fd(unsigned int b, int fd, t_output *t);
-char			*ft_string_basebig(unsigned int b, t_output *t);
-int				ft_putbinocthex_fd(void *b, int fd, t_output *t);
-int				ft_print_binocthex_fd(unsigned char b, int fd, t_output *t);
-char			*ft_string_binocthex(unsigned char b, t_output *t);
-int				ft_putcolour_fd(int fd, t_output *t);
-int				ft_print_colour_fd(int fd, t_output	*t);
-int				ft_print_colour_fd_0(int fd, t_output *t);
-int				ft_print_colour_fd_1(int fd, t_output *t);
-int				ft_print_colour_fd_2(int fd, t_output *t);
-int				ft_print_colour_fd_3(int fd, t_output *t);
-int				ft_print_colour_fd_4(int fd, t_output *t);
-int				ft_print_colour_fd_5(int fd, t_output *t);
-int				ft_print_colour_fd_6(int fd, t_output *t);
-int				ft_print_colour_fd_7(int fd, t_output *t);
-int				ft_print_colour_fd_8(int fd, t_output *t);
-int				ft_print_colour_fd_9(int fd, t_output *t);
+// void			ft_putstuff(va_list arg, const char *s, int *q, t_output *t);
+// void			ft_writestuff(int fd, const char *s, int *q);
+// int				ft_pf_putchar_fd(char c, int fd, t_output *t);
+// int				ft_print_char_fd(char s, int fd, t_output *t);
+// char			*ft_string_pointer(void *mem);
+// int				ft_putpointer_fd(void *mem, int fd, t_output *t);
+// int				ft_print_pointer_fd(void *mem, int fd);
+// int				ft_putstring_fd(char *s, int fd, t_output *t);
+// int				ft_print_string_fd(char *s, int fd, t_output *t);
+// int				ft_putunsigned_fd(unsigned int u, int fd, t_output *t);
+// int				ft_print_unsigned_fd(unsigned int u, int fd, t_output *t);
+// char			*ft_string_unsigned(unsigned int u);
+// int				ft_putinteger_fd(int d, int fd, t_output *t);
+// int				ft_print_integer_fd(int d, int fd, t_output *t);
+// char			*ft_string_integer(int d);
+// int				ft_puthexabig_fd(unsigned int h, int fd, t_output *t);
+// int				ft_print_hexabig_fd(unsigned int h, int fd, t_output *t);
+// char			*ft_string_hexabig(unsigned int h);
+// int				ft_puthexasmall_fd(unsigned int h, int fd, t_output *t);
+// int				ft_print_hexasmall_fd(unsigned int h, int fd, t_output *t);
+// char			*ft_string_hexasmall(unsigned int h);
+// void			ft_initialise_struct(t_output *t);
+// void			ft_dash_struct(t_output *t, int n);
+// void			ft_prefill_struct(t_output *t, const char *s);
+// int				ft_get_num(t_output *t, const char *s, int i);
+// char			*ft_strjoin_freeleft(char *s1, char const *s2);
+// char			*ft_strjoin_freeright(char const *s1, char *s2);
+// char			*ft_padchar(char *s, int len, t_output *t);
+// char			*ft_padint(char *s, t_output *t);
+// char			*ft_precint(char *s, t_output *t);
+// int				ft_putbasebig_fd(unsigned int b, int fd, t_output *t);
+// int				ft_print_basebig_fd(unsigned int b, int fd, t_output *t);
+// char			*ft_string_basebig(unsigned int b, t_output *t);
+// int				ft_putbinocthex_fd(void *b, int fd, t_output *t);
+// int				ft_print_binocthex_fd(unsigned char b, int fd, t_output *t);
+// char			*ft_string_binocthex(unsigned char b, t_output *t);
+// int				ft_putcolour_fd(int fd, t_output *t);
+// int				ft_print_colour_fd(int fd, t_output	*t);
+// int				ft_print_colour_fd_0(int fd, t_output *t);
+// int				ft_print_colour_fd_1(int fd, t_output *t);
+// int				ft_print_colour_fd_2(int fd, t_output *t);
+// int				ft_print_colour_fd_3(int fd, t_output *t);
+// int				ft_print_colour_fd_4(int fd, t_output *t);
+// int				ft_print_colour_fd_5(int fd, t_output *t);
+// int				ft_print_colour_fd_6(int fd, t_output *t);
+// int				ft_print_colour_fd_7(int fd, t_output *t);
+// int				ft_print_colour_fd_8(int fd, t_output *t);
+// int				ft_print_colour_fd_9(int fd, t_output *t);
 
 #endif
