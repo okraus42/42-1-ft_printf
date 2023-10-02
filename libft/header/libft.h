@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/01 16:50:51 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/02 17:02:20 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 // FT_PRINTF definitions
 # define F_TYPES	"cspdiuxXbBPC%"
 # define F_FLAGS	"0#-+ 'I"
-# define F_NUMBERS	"123456789*"
+# define F_NUMBERS	"0123456789*"
 # define F_MODIFIER	"hlLz"
 # define BASE_CAP	"0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 # define BASE_SML	"0123456789abcdefghijklmnopqrstuvwxyz"
@@ -88,42 +88,42 @@ typedef enum e_print_flag
 
 typedef enum e_print_type_flag
 {
-	LOWERCASE_HH = 0x1,			// A following integer conversion corresponds to a signed char or unsigned char argument,
-	LOWERCASE_H = 0x2,			// A following integer conversion corresponds to a short or unsigned short argument
-	LOWERCASE_L = 0x4,			// A following integer conversion corresponds to a long or unsigned long argument
-	LOWERCASE_LL = 0x8,			// A following integer conversion corresponds to a long long or unsigned long long argument,
-	UPPERCASE_L = 0x10,			// ignored for now A following a, A, e, E, f, F, g, or G conversion corresponds to a long double argument.  (C99 allows %LF, but SUSv2 does not.)
-	LLL = 0x18,					//L or ll
-	LOWERCASE_Z = 0x20,			// A following integer conversion corresponds to a size_t or ssize_t argument
-	LOWERCASE_J = 0x40,			// ignored for now  A following integer conversion corresponds to an intmax_t or uintmax_t argument,
-	LOWERCASE_T = 0x80,			// ignored for now A following integer conversion corresponds to a ptrdiff_t argument,
-	LENGTH_MODIFIER = 0xFF,		// bit mask to see if any length modification takes place
-	LOWERCASE_I = 0x100,		//integer
-	LOWERCASE_D = 0x200,		//integer, decimal
-	SIGNED_INT = 0x300,			//integer (i, d)
-	LOWERCASE_O = 0x400,		//octal
-	LOWERCASE_U = 0x800,		//unsigned
-	LOWERCASE_X = 0x1000,		//hexadecimal
-	UPPERCASE_X = 0x2000,		//HEXADECIMAL
-	UNSIGNED_INT = 0x3C00,		//unsigned int (ouxX)
-	CONVERSION_INT = 0x3F00,	// "integer conversion" stands for d, i, o, u, x, or X
-	LOWERCASE_E = 0x4000,		//
-	UPPERCASE_E = 0x8000,		//
-	LOWERCASE_F = 0x10000,		//
-	UPPERCASE_F = 0x20000,		//
-	LOWERCASE_G = 0x40000,		//
-	UPPERCASE_G = 0x80000,		//
-	LOWERCASE_A = 0x100000,		//
-	UPPERCASE_A = 0x200000,		//
-	CONVERSION_FLOAT = 0x3FC00,	// a, A, e, E, f, F, g, or G
-	LOWERCASE_C = 0x400000,		//char
-	LOWERCASE_S = 0x800000,		//string
-	LOWERCASE_P = 0x1000000,	//pointer
-	UPPERCASE_C = 0x2000000,	//colours and formating
-	LOWERCASE_B = 0x4000000,	//binary unsigned int
-	UPPERCASE_B = 0x8000000,	//bases unsigned int
-	UPPERCASE_P = 0x10000000,	//dunno?
-	PERCENTAGE = 0x20000000		// percentage
+	LOWERCASE_HH = 0x1,				// A following integer conversion corresponds to a signed char or unsigned char argument,
+	LOWERCASE_H = 0x2,				// A following integer conversion corresponds to a short or unsigned short argument
+	LOWERCASE_L = 0x4,				// A following integer conversion corresponds to a long or unsigned long argument
+	LOWERCASE_LL = 0x8,				// A following integer conversion corresponds to a long long or unsigned long long argument,
+	UPPERCASE_L = 0x10,				// ignored for now A following a, A, e, E, f, F, g, or G conversion corresponds to a long double argument.  (C99 allows %LF, but SUSv2 does not.)
+	LLL = 0x18,						//L or ll
+	LOWERCASE_Z = 0x20,				// A following integer conversion corresponds to a size_t or ssize_t argument
+	LOWERCASE_J = 0x40,				// ignored for now  A following integer conversion corresponds to an intmax_t or uintmax_t argument,
+	LOWERCASE_T = 0x80,				// ignored for now A following integer conversion corresponds to a ptrdiff_t argument,
+	LENGTH_MODIFIER = 0xFF,			// bit mask to see if any length modification takes place
+	LOWERCASE_I = 0x100,			//integer
+	LOWERCASE_D = 0x200,			//integer, decimal
+	SIGNED_INT = 0x300,				//integer (i, d)
+	LOWERCASE_O = 0x400,			//octal
+	LOWERCASE_U = 0x800,			//unsigned
+	LOWERCASE_X = 0x1000,			//hexadecimal
+	UPPERCASE_X = 0x2000,			//HEXADECIMAL
+	CONVERSION_UNSIGNED = 0x3C00,	//unsigned int (ouxX)
+	CONVERSION_INT = 0x3F00,		// "integer conversion" stands for d, i, o, u, x, or X
+	LOWERCASE_E = 0x4000,			//
+	UPPERCASE_E = 0x8000,			//
+	LOWERCASE_F = 0x10000,			//
+	UPPERCASE_F = 0x20000,			//
+	LOWERCASE_G = 0x40000,			//
+	UPPERCASE_G = 0x80000,			//
+	LOWERCASE_A = 0x100000,			//
+	UPPERCASE_A = 0x200000,			//
+	CONVERSION_FLOAT = 0x3FC00,		// a, A, e, E, f, F, g, or G
+	LOWERCASE_C = 0x400000,			//char
+	LOWERCASE_S = 0x800000,			//string
+	LOWERCASE_P = 0x1000000,		//pointer
+	UPPERCASE_C = 0x2000000,		//colours and formating
+	LOWERCASE_B = 0x4000000,		//binary unsigned int
+	UPPERCASE_B = 0x8000000,		//bases unsigned int
+	UPPERCASE_P = 0x10000000,		//dunno?
+	PERCENTAGE = 0x20000000			// percentage
 }	t_type_flag;
 
 typedef enum e_print_value_flag
@@ -147,16 +147,17 @@ typedef enum e_print_value_flag
 
 typedef union u_value
 {
-	signed char			sc;
-	unsigned char		uc;
-	signed short		ss;
-	unsigned short		us;
+	signed char			sc;	//not needed promoted to int
+	unsigned char		uc;	//not needed promoted to int
+	signed short		ss;	//not needed promoted to int
+	unsigned short		us;	//not needed promoted to int
 	int					i;
 	unsigned int		ui;
 	long				l;
 	unsigned long		ul;
 	long long			ll;
 	unsigned long long	ull;
+	float				f;	//not needed promoted to double
 	double				d;
 	long double			ld;
 	size_t				st;

@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 14:59:58 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/01 17:26:56 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/02 17:18:10 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,17 @@ void ft_print_list(t_list *lst)
 		{
 			if (data->orig)
 			{
-				write(1, "string: ", 8);
-				write(1, data->orig, 1);
-				write(1, " | ", 3);
+				printf("string: %s\n", data->orig);
 			}
 			else
-				write(1, "string not found | ", 19);
-			if (data->type)
-			{
-				write(1, "type of 1\n", 10);
-			}
-			else
-				write(1, "type not found\n", 15);
+				write(1, "string not found", 16);
+			printf("data type: %i\n", data->type);
+			printf("flag: %x\n", data->flag);
+			printf("value_flag: %x\n", data->value_flag);
+			printf("type_flag: %x\n", data->type_flag);
+			printf("value: %i\n", data->value.i);
+			printf("width: %x\n", data->field_width);
+			printf("precision: %x\n", data->precision);
 		}
 		else
 			write(1, "data not found\n", 15);
@@ -115,6 +114,8 @@ void	ft_init_flags_helper(int flag, int *err, t_pf_info *data)
 			*err = 1;
 	else
 		data->flag |= flag;
+	if (*err)	//REMOVE LATER
+		printf("ERR FLAGS: %s\n", data->orig); //REMOVE LATER
 }
 
 void	ft_init_flags(int *i, int *err, t_pf_info *data)
@@ -144,6 +145,7 @@ void	ft_init_field_width(int *i, int *err, t_pf_info *data, va_list arg)
 	int	n;
 	long long	num;
 
+	printf("WIDTH\n");
 	if (data->orig[*i] == '*')
 	{
 		data->field_width = va_arg(arg, unsigned int);
@@ -151,17 +153,25 @@ void	ft_init_field_width(int *i, int *err, t_pf_info *data, va_list arg)
 	}
 	else
 	{
+		printf("WIDTH2\n");
+		printf("%s\n", &data->orig[*i]);
 		n = 0;
-		num = ft_latoi(data->orig[*i]);
+		num = ft_latoi(&data->orig[*i]);
+		printf("num = %lli\n", num);
 		while (ft_isdigit(data->orig[*i]))
 		{
 			++n;
 			++(*i);
 		}
+		printf("n = %i\n", n);
+		printf("err = %i\n", *err);
 		if (n > 15 || num > 0xFFFFFFFF)		//no need for crazy big precision.
 			*err = 1;
 		else
-			data->precision = (unsigned int)num;
+			data->field_width = (unsigned int)num;
+		printf("err2 = %i\n", *err);
+		if (*err) //REMOVE LATER
+			printf("ERR WIDTH: %s\n", data->orig); //REMOVE LATER
 	}
 }
 
@@ -170,6 +180,7 @@ void	ft_init_precision(int *i, int *err, t_pf_info *data, va_list arg)
 	int			n;
 	long long	num;
 
+	write(1, "PRECISION\n", 10);
 	if (data->orig[*i] == '*')
 	{
 		data->precision = va_arg(arg, unsigned int);
@@ -177,8 +188,9 @@ void	ft_init_precision(int *i, int *err, t_pf_info *data, va_list arg)
 	}
 	else
 	{
+		printf("PRECISION2\n");
 		n = 0;
-		num = ft_latoi(data->orig[*i]);
+		num = ft_latoi(&data->orig[*i]);
 		while (ft_isdigit(data->orig[*i]))
 		{
 			++n;
@@ -189,10 +201,13 @@ void	ft_init_precision(int *i, int *err, t_pf_info *data, va_list arg)
 		else
 			data->precision = (unsigned int)num;
 	}
+	if (*err)//REMOVE LATER
+		printf("ERR PRECISION: %s\n", data->orig); //REMOVE later
 }
 
 void	ft_init_modifiers(int *i, int *err, t_pf_info *data)
 {
+	(void)err; //possibly remove from the function later
 	if (data->orig[*i] == 'h' && data->orig[(*i) + 1] == 'h')
 	{
 		data->type_flag |= LOWERCASE_HH;
@@ -221,9 +236,9 @@ void ft_get_int_value_helper(t_pf_info *data, va_list arg, int flag)
 {
 	data->value_flag = flag;
 	if (flag & SIGNED_CHAR)
-		data->value.sc = va_arg(arg, signed char);
+		data->value.i = va_arg(arg, int);//char promoted to int
 	else if (flag & SIGNED_SHORT)
-		data->value.ss = va_arg(arg, signed short);
+		data->value.i = va_arg(arg, int);//short promoted to int
 	else if (flag & LONG)
 		data->value.l = va_arg(arg, long);
 	else if (flag & LONG_LONG)
@@ -241,7 +256,7 @@ int	ft_get_int_value(t_pf_info *data, va_list arg)
 		if (data->type_flag & LOWERCASE_HH)
 			ft_get_int_value_helper(data, arg, SIGNED_CHAR);
 		else if (data->type_flag & LOWERCASE_H)
-			ft_get_int_value_helper(data, arg, SIGNED_SHORT);
+			ft_get_int_value_helper(data, arg, SIGNED_SHORT); 
 		else if (data->type_flag & LOWERCASE_L)
 			ft_get_int_value_helper(data, arg, LONG);
 		else if (data->type_flag & LLL)
@@ -256,7 +271,7 @@ int	ft_get_int_value(t_pf_info *data, va_list arg)
 	return (0);
 }
 
-int	ft_init_int(char c, int i, t_pf_info *data, va_list arg)
+int	ft_init_int(char c, t_pf_info *data, va_list arg)
 {
 	if (c == 'c')
 		data->type_flag |= LOWERCASE_C;
@@ -272,9 +287,9 @@ void ft_get_unsigned_int_value_helper(t_pf_info *data, va_list arg, int flag)
 {
 	data->value_flag = flag;
 	if (flag & UNSIGNED_CHAR)
-		data->value.uc = va_arg(arg, unsigned char);
+		data->value.ui = va_arg(arg, unsigned int); //char promoted to int
 	else if (flag & UNSIGNED_SHORT)
-		data->value.us = va_arg(arg, unsigned short);
+		data->value.ui = va_arg(arg, unsigned int); //short promoted to int
 	else if (flag & UNSIGNED_LONG)
 		data->value.ul = va_arg(arg, unsigned long);
 	else if (flag & UNSIGNED_LONG_LONG)
@@ -307,7 +322,7 @@ int	ft_get_unsigned_int_value(t_pf_info *data, va_list arg)
 	return (0);
 }
 
-int	ft_init_unsigned_unsigned_int(char c, int i, t_pf_info *data, va_list arg)
+int	ft_init_unsigned(char c, t_pf_info *data, va_list arg)
 {
 	if (c == 'o')
 		data->type_flag |= LOWERCASE_O;
@@ -324,7 +339,32 @@ int	ft_init_unsigned_unsigned_int(char c, int i, t_pf_info *data, va_list arg)
 	return (ft_get_unsigned_int_value(data, arg));
 }
 
-int	ft_init_double(char c, int i, t_pf_info *data, va_list arg)
+int	ft_get_double_value(t_pf_info *data, va_list arg)
+{
+	if (data->type_flag & LENGTH_MODIFIER)
+	{
+		if (data->type_flag & LLL)
+		{
+			data->value_flag = LONG_DOUBLE;
+			data->value.ld = va_arg(arg, long double);
+		}
+		else if (data->type_flag & LOWERCASE_L)
+		{
+			data->value_flag = DOUBLE;
+			data->value.d = va_arg(arg, double);
+		}
+		else
+			return (1);
+	}
+	else
+	{
+		data->value_flag = DOUBLE;
+		data->value.d = va_arg(arg, double); //float promoted to double
+	}
+	return (0);
+}
+
+int	ft_init_double(char c, t_pf_info *data, va_list arg)
 {
 	if (c == 'e')
 		data->type_flag |= LOWERCASE_E;
@@ -342,27 +382,29 @@ int	ft_init_double(char c, int i, t_pf_info *data, va_list arg)
 		data->type_flag |= LOWERCASE_A;
 	else if (c == 'A')
 		data->type_flag |= UPPERCASE_A;
-	// update value from arg list;
+	return (ft_get_double_value(data, arg));
 }
 
-int	ft_init_pointer(char c, int i, t_pf_info *data, va_list arg)
+int	ft_init_pointer(char c, t_pf_info *data, va_list arg)
 {
 	if (data->type_flag & LENGTH_MODIFIER)
 		return (1);
 	if (c == 's')
 	{
 		data->type_flag |= LOWERCASE_S;
+		data->value_flag = CHAR_POINTER;
 		data->value.s = va_arg(arg, char *);
 	}
 	else if (c == 'p')
 	{
 		data->type_flag |= LOWERCASE_P;
+		data->value_flag = VOID_POINTER;
 		data->value.p = va_arg(arg, void *);
 	}
 	return (0);
 }
 
-int	ft_init_covnversion(int i, t_pf_info *data, va_list arg)
+int	ft_init_conversion(int i, t_pf_info *data, va_list arg)
 {
 	char	c;
 	int		err;
@@ -370,15 +412,15 @@ int	ft_init_covnversion(int i, t_pf_info *data, va_list arg)
 	c = data->orig[i];
 	err = 0;
 	if (c == 'i' || c == 'd' || c == 'c')
-		err = ft_init_int(c, i, data, arg);
+		err = ft_init_int(c, data, arg);
 	else if (c == 'o' || c == 'u' || c == 'x' || c == 'X'
 		|| c == 'b' || c == 'B')
-		err = ft_init_unsigned(c, i, data, arg);
+		err = ft_init_unsigned(c, data, arg);
 	else if (c == 'e' || c == 'E' || c == 'f' || c == 'F'
 		|| c == 'g' || c == 'G' || c == 'a' || c == 'A')
-		err = ft_init_double(c, i, data, arg);
+		err = ft_init_double(c,  data, arg);
 	else if (data->orig[i] == 's' || data->orig[i] == 'p')
-		err = ft_init_pointer(c, i, data, arg);
+		err = ft_init_pointer(c,  data, arg);
 	else if (data->orig[i] == 'C')
 		data->type_flag |= UPPERCASE_C;
 	else if (data->orig[i] == 'P')
@@ -387,35 +429,47 @@ int	ft_init_covnversion(int i, t_pf_info *data, va_list arg)
 		data->type_flag |= PERCENTAGE;
 	else
 		err = 1;
+	if (err)				//REMOVE LATER
+		printf("ERR CONVERSION: %s\n", data->orig); //REMOVE LATER
 	return (err);
 }
 
-int	*ft_init_list(va_list arg, t_list *lst)
+int	ft_init_list(va_list arg, t_list *lst)
 {
 	t_pf_info	*data;
 	int			i;
 	int			err;
 
-	i = 0;
+	
 	err = 0;
 	while (lst)
 	{
 		data = lst->content;
-		if (data->orig[i] && ft_strchr(F_FLAGS, data->orig[i]))
-			ft_init_flags(&i, &err, data);
-		if (data->orig[i] && ft_strchr(F_NUMBERS, data->orig[i]))
-			ft_init_field_width(&i, &err, data, arg);
-		if (data->orig[i] == '.')
+		i = 1;
+		if (data->type)
 		{
-			++i;
-			ft_init_precision(&i, &err, data, arg);
+			if (data->orig[i] && ft_strchr(F_FLAGS, data->orig[i]))
+				ft_init_flags(&i, &err, data);
+			if (data->orig[i] && ft_strchr(F_NUMBERS, data->orig[i]))
+				ft_init_field_width(&i, &err, data, arg);
+			if (data->orig[i] == '.' && ft_strchr(F_NUMBERS, data->orig[i + 1]))
+			{
+				++i;
+				ft_init_precision(&i, &err, data, arg);
+			}
+			if (data->orig[i] && ft_strchr(F_MODIFIER, data->orig[i]))
+				ft_init_modifiers(&i, &err, data);
+			if (err || !ft_strchr(F_TYPES, data->orig[i])) // error
+			{
+				if (!err)
+					printf ("ERROR TYPES %s\n", &data->orig[i]);
+				else
+					printf ("ERROR ERR\n");
+				return (1);
+			}
+			if (ft_init_conversion(i, data, arg))
+				return (1);
 		}
-		if (data->orig[i] && ft_strchr(F_MODIFIER, data->orig[i]))
-			ft_init_modifiers(&i, &err, data);
-		if (err || !ft_strchr(F_TYPES, data->orig[i])) // error
-			return (1);
-		if (ft_init_conversion(i, data, arg))
-			return (1);
 		lst = lst->next;
 	}
 	return (0);
@@ -428,15 +482,22 @@ char	*ft_get_print_string(va_list arg, const char *s)
 
 	lst = ft_process_string(s);
 	str = NULL;
-	ft_print_list(lst);  //just for testing and debugging.
-	if (ft_init_list(arg, lst)) //checks for proper formating of the % sequences and returns non-zero value on error.
+	//ft_print_list(lst);  //just for testing and debugging.
+	if (ft_init_list(arg, lst))
+	{ //checks for proper formating of the % sequences and returns non-zero value on error.
+		printf("ERROR ERRROR ERRROR\nERRROR\nERROR ERRROR ERRROR\n");
+		ft_print_list(lst);
 		free(lst); //should free the list properly.
+		lst = NULL;
+	}
 	//fill list with arg stuff;
 	//process list
 	//join strings;
 	//free everything except the str;
 
 	//debug print list
+	if (lst)
+		ft_print_list(lst); 
 	return (str);
 }
 
