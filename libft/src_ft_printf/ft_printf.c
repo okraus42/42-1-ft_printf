@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 14:59:58 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/03 11:57:51 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/03 17:14:41 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	ft_add_node(t_list **head, const char *s, int type, int *end)
 	return (0);
 }
 
-t_list	*ft_process_string(const char *s)
+t_list	*ft_process_input_string(const char *s)
 {
 	int		i;
 	int		error;
@@ -181,6 +181,7 @@ void	ft_init_precision(int *i, int *err, t_pf_info *data, va_list arg)
 	long long	num;
 
 	write(1, "PRECISION\n", 10);
+	data->flag |= PERIOD;
 	if (data->orig[*i] == '*')
 	{
 		data->precision = va_arg(arg, unsigned int);
@@ -198,8 +199,10 @@ void	ft_init_precision(int *i, int *err, t_pf_info *data, va_list arg)
 		}
 		if (n > 15 || num > 0xFFFFFFFF)		//no need for crazy big precision.
 			*err = 1;
-		else
+		else if (num > 0)
 			data->precision = (unsigned int)num;
+		else
+			data->precision = 0; //probably not needed
 	}
 	if (*err)//REMOVE LATER
 		printf("ERR PRECISION: %s\n", data->orig); //REMOVE later
@@ -480,7 +483,7 @@ char	*ft_get_print_string(va_list arg, const char *s)
 	char	*str;
 	t_list	*lst;
 
-	lst = ft_process_string(s);
+	lst = ft_process_input_string(s);
 	str = NULL;
 	//ft_print_list(lst);  //just for testing and debugging.
 	if (ft_init_list(arg, lst))

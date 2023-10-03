@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 11:51:02 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/02 16:48:34 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/03 17:37:36 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,6 @@ int	main(void)
 {
 	//ft_printf("abc%2s%cab%#012.5ic%%def", "xxx", 'c', 0x12345678);
 	write(1, "\n", 1);
-	ft_printf("%2s123%cab%#012.5ic%%", "xxx", 'c', 0x12345678);
+	ft_printf("%2s123%cab%+-020.15ic%%", "xxx", 'c', 0x12345678);
 	return (0);
 }

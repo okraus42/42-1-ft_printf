@@ -6,7 +6,7 @@
 #    By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/14 13:43:18 by okraus            #+#    #+#              #
-#    Updated: 2023/10/03 12:22:51 by okraus           ###   ########.fr        #
+#    Updated: 2023/10/03 17:12:50 by okraus           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -127,7 +127,8 @@ SRC_GNL		=	get_next_line \
 # ft_printf functions
 
 SRC_PF		= 	ft_printf \
-				ft_process_list.c
+				ft_process_list \
+				ft_utils
 #				ft_colour_1 \
 #				ft_colour_2 \
 #				ft_padding \

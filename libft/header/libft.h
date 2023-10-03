@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/03 12:09:03 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/03 17:12:16 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ typedef enum e_print_flag
 	SPACE = 0x10,					// (a space) A blank should be left before a positive number (or empty string) produced by a signed conversion.
 	APOSTROPHE = 0x20,				// For decimal conversion (i, d, u, f, F, g, G) the output is to be grouped with thousands' grouping characters if the locale information indicates any.
 	UPPERCASE_I = 0x40,				// ignored for now
-	FLAGA = 0x80,					//
+	PERIOD = 0x80,					//
 	FLAGB = 0x100,					//
 	FLAGC = 0x200,					//
 	FLAG1 = 0x400,					//
@@ -265,7 +265,7 @@ void			ft_lstdelone(t_list *lst, void (*del)(void *));
 void			ft_lstclear(t_list **lst, void (*del)(void *));
 void			ft_lstiter(t_list *lst, void (*f)(void *));
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
-					void (*del)(vo//process string;id *));
+					void (*del)(void *));
 
 // EXTRA prototypes
 
@@ -334,7 +334,9 @@ char			*ft_strjoin_gnl(char *s1, char *s2);
 //int				ft_printf_fd(int fd, const char *s, ...);
 int				ft_printf(const char *s, ...);
 int				ft_process_list(t_list *lst);
-
+char			*ft_strjoin_freeleft(char *s1, char const *s2);
+char			*ft_strjoin_freeright(char const *s1, char *s2);
+char			*ft_strjoin_freeboth(char *s1, char *s2);
 // void			ft_putstuff(va_list arg, const char *s, int *q, t_output *t);
 // void			ft_writestuff(int fd, const char *s, int *q);
 // int				ft_pf_putchar_fd(char c, int fd, t_output *t);
@@ -360,8 +362,7 @@ int				ft_process_list(t_list *lst);
 // void			ft_dash_struct(t_output *t, int n);
 // void			ft_prefill_struct(t_output *t, const char *s);
 // int				ft_get_num(t_output *t, const char *s, int i);
-// char			*ft_strjoin_freeleft(char *s1, char const *s2);
-// char			*ft_strjoin_freeright(char const *s1, char *s2);
+
 // char			*ft_padchar(char *s, int len, t_output *t);
 // char			*ft_padint(char *s, t_output *t);
 // char			*ft_precint(char *s, t_output *t);
