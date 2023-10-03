@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 14:59:58 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/02 17:18:10 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/03 11:57:51 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -492,6 +492,13 @@ char	*ft_get_print_string(va_list arg, const char *s)
 	}
 	//fill list with arg stuff;
 	//process list
+	if (ft_process_list(lst))
+	{ //checks for proper formating of the % sequences and returns non-zero value on error.
+		printf("ERROR PROCESS ERRROR\nERRROR\nERROR PROCESS ERRROR\n");
+		ft_print_list(lst);
+		free(lst); //should free the list properly.
+		lst = NULL;
+	}
 	//join strings;
 	//free everything except the str;
 

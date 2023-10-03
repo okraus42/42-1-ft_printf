@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/02 17:02:20 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/03 12:09:03 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -265,7 +265,7 @@ void			ft_lstdelone(t_list *lst, void (*del)(void *));
 void			ft_lstclear(t_list **lst, void (*del)(void *));
 void			ft_lstiter(t_list *lst, void (*f)(void *));
 t_list			*ft_lstmap(t_list *lst, void *(*f)(void *),
-					void (*del)(void *));
+					void (*del)(vo//process string;id *));
 
 // EXTRA prototypes
 
@@ -333,6 +333,8 @@ char			*ft_strjoin_gnl(char *s1, char *s2);
 
 //int				ft_printf_fd(int fd, const char *s, ...);
 int				ft_printf(const char *s, ...);
+int				ft_process_list(t_list *lst);
+
 // void			ft_putstuff(va_list arg, const char *s, int *q, t_output *t);
 // void			ft_writestuff(int fd, const char *s, int *q);
 // int				ft_pf_putchar_fd(char c, int fd, t_output *t);
