@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 11:51:51 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/03 17:38:20 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/04 15:50:00 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,13 @@ int	ft_process_int(t_pf_info *data)
 	return (0);
 }
 
+int	ft_process_prc(t_pf_info *data)
+{
+	data->out = ft_strdup("%");
+	data->outlen = 1;
+	return (0);
+}
+
 int	ft_process_percent(t_pf_info *data)
 {
 	int	err;
@@ -122,6 +129,8 @@ int	ft_process_percent(t_pf_info *data)
 	err = 1;
 	if (data->type_flag & SIGNED_INT)
 		err = ft_process_int(data);
+	if (data->type_flag & PERCENTAGE)
+		err = ft_process_prc(data);
 	return (err);
 }
 
@@ -160,7 +169,9 @@ int	ft_process_list(t_list *lst)
 			err = ft_process_percent(data);
 		else
 			err = ft_process_string(data);
+		printf("err = %i, str = %s\n", err, data->orig);
 		lst = lst->next;
+		
 	}
 	return (err);
 }

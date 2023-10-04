@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 14:59:58 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/03 17:14:41 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/04 14:44:53 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -503,8 +503,9 @@ char	*ft_get_print_string(va_list arg, const char *s)
 		lst = NULL;
 	}
 	//join strings;
+	str = ft_print_lst_to_strinf(lst);
 	//free everything except the str;
-
+	printf("FINAL STRING: %s\n", str);
 	//debug print list
 	if (lst)
 		ft_print_list(lst); 

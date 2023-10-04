@@ -1,22 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main_pritnf.c                                      :+:      :+:    :+:   */
+/*   ft_join_strings.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/01 11:51:02 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/04 15:51:10 by okraus           ###   ########.fr       */
+/*   Created: 2023/10/04 14:22:52 by okraus            #+#    #+#             */
+/*   Updated: 2023/10/04 14:45:38 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "header/libft.h"
+#include "../header/libft.h"
 
-int	main(void)
+char	*ft_print_lst_to_strinf(t_list *lst)
 {
-	//ft_printf("abc%2s%cab%#012.5ic%%def", "xxx", 'c', 0x12345678);
-	write(1, "\n", 1);
-	ft_printf("%2s123%cab%+-020.15ic%%\n", "xxx", 'c', 0x12345678);
-	ft_printf("123%iab%+-020.15hic%%\n", 'c', 0x12345678);
-	return (0);
+	t_pf_info	*data;
+	char		*str;
+
+	str = NULL;
+	while (lst)
+	{
+		data = lst->content;
+		if (!str)
+		{
+			if (data->out)
+				str = ft_strdup(data->out);
+		}
+		else
+			if (data->out)
+				str = ft_strjoin_freeleft(str, data->out);
+		lst = lst->next;
+	}
+	return (str);
 }
