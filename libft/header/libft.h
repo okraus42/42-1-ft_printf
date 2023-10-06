@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/04 14:42:03 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/06 18:05:23 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,6 +337,7 @@ int				ft_process_list(t_list *lst);
 char			*ft_strjoin_freeleft(char *s1, char const *s2);
 char			*ft_strjoin_freeright(char const *s1, char *s2);
 char			*ft_strjoin_freeboth(char *s1, char *s2);
+char			*ft_string_copy_n(char const *str, int n);
 char			*ft_print_lst_to_strinf(t_list *lst);
 // void			ft_putstuff(va_list arg, const char *s, int *q, t_output *t);
 // void			ft_writestuff(int fd, const char *s, int *q);

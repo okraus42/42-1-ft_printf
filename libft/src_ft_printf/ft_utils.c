@@ -6,11 +6,36 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:36:53 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/03 17:31:30 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/06 16:47:52 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/libft.h"
+
+char	*ft_string_copy_n(char const *str, int n)
+{
+	int		i;
+	int		len;
+	char	*dest;
+
+	i = 0;
+	len = ft_strlen(str);
+	if (n < len)
+		len = n;
+	if (!str)
+		return (NULL);
+	dest = malloc(sizeof(char) * (len + 1));
+	if (!dest)
+		return (NULL);
+	while (i < len)
+	{
+		dest[i] = str[i];
+		i++;
+	}
+	dest[i] = 0;
+	return (dest);
+}
+
 
 char	*ft_strjoin_freeright(char const *s1, char *s2)
 {

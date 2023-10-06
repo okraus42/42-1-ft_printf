@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 11:51:51 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/04 15:50:00 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/06 17:11:12 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,9 +71,7 @@ int	ft_field_width(t_pf_info *data)
 	if (data->flag & ZERO && !(data->flag & PERIOD))
 	{
 		if (data->flag & MINUS)
-			err = ft_padright(i, '0', &data->out);
-		else
-			err = ft_padleft(i, '0', &data->out);
+			err = ft_padright(i, ' ', &data->out);
 	}
 	else
 	{
@@ -94,9 +92,11 @@ int	ft_process_int(t_pf_info *data)
 		return (1);
 	//process precision
 	printf("RAW INT: %s\n", data->out); //remove later
-	if (data->precision)
+	if (data->precision || (data->flag & ZERO && !(data->flag & 0x84))) //0x84 PERIOD & MINUS
 	{
 		i = data->precision - ft_strlen(data->out);
+		if (!(data->flag & PERIOD))
+			i = data->field_width - ft_strlen(data->out);
 		if (i > 0)
 			if (ft_padleft(i, '0', &data->out))
 				return (1);
@@ -122,6 +122,29 @@ int	ft_process_prc(t_pf_info *data)
 	return (0);
 }
 
+int	ft_process_prcstr(t_pf_info *data)
+{
+	//process precision
+	if (!data->value.s && data->precision >= 6U)
+		data->out = ft_strdup("(null)");
+	else if (!data->value.s)
+		data->out = ft_strdup("");
+	else if (data->flag & PERIOD)
+		data->out = ft_string_copy_n(data->value.s, data->precision);
+	else
+		data->out = ft_stringcopy(data->value.s);
+	if(!data->out)
+		return (1);
+	printf("RAW STR: %s\n", data->out); //remove later
+	//process field width (if zero and no precision fill with zeros else fill with space) //check the - flag
+	if (data->field_width > ft_strlen(data->out))
+		if (ft_field_width(data))
+			return (1);
+	data->outlen = ft_strlen(data->out);
+	printf("PROCESSED STR: %s\n", data->out); //remove later
+	return (0);
+}
+
 int	ft_process_percent(t_pf_info *data)
 {
 	int	err;
@@ -131,6 +154,8 @@ int	ft_process_percent(t_pf_info *data)
 		err = ft_process_int(data);
 	if (data->type_flag & PERCENTAGE)
 		err = ft_process_prc(data);
+	if (data->type_flag & LOWERCASE_S)
+		err = ft_process_prcstr(data);
 	return (err);
 }
 
