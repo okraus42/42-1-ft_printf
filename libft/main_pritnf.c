@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 11:51:02 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/07 12:19:15 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/07 14:24:02 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	main(void)
 	write(1, "\n", 1);
 	ft_printf("%2s123%cab%+-020.15ic%%\n", "xxx", 'c', 0x12345678);
 	ft_printf("123%iab%+-020.15hic%%\n", 'c', 0x12345678);
-	ft_printf("123%iab%+020.15hic%2.4sd%9.6se%-08.2sf%%\n", 'c', -0x12345678, "abcdef", (char *)NULL, "abcdef");
+	ft_printf("123%cab%+020.15hic%2.4sd%9.6se%-08.2sfghijkl%%\n", 'c', -0x12345678, "abcdef", (char *)NULL, "abcdef");
 
 	//printf("%lli %s %s\n", -9223372036854775807LL -1LL, ft_ltoa_base(-9223372036854775807LL -1LL, "0123456789abcdef", 10), ft_ultoa_base(0x1234567890fDECBA, "0123456789abcdef", 16));
 	return (0);

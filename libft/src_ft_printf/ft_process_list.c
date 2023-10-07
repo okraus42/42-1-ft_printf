@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 11:51:51 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/06 17:11:12 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/07 14:23:40 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_field_width(t_pf_info *data)
 	return (err);
 }
 
-int	ft_process_int(t_pf_info *data)
+int	ft_process_prcint(t_pf_info *data)
 {
 	int	i;
 	//get number
@@ -145,17 +145,32 @@ int	ft_process_prcstr(t_pf_info *data)
 	return (0);
 }
 
+int	ft_process_prcchr(t_pf_info *data)
+{
+	char s[2];
+
+	s[0] = data->value.i;
+	s[1] = 0;
+	data->out = ft_strdup(s);
+	if (!data->out)
+		return (1);
+	data->outlen = ft_strlen(data->out);
+	return (0);
+}
+
 int	ft_process_percent(t_pf_info *data)
 {
 	int	err;
 
 	err = 1;
 	if (data->type_flag & SIGNED_INT)
-		err = ft_process_int(data);
+		err = ft_process_prcint(data);
 	if (data->type_flag & PERCENTAGE)
 		err = ft_process_prc(data);
 	if (data->type_flag & LOWERCASE_S)
 		err = ft_process_prcstr(data);
+	if (data->type_flag & LOWERCASE_C)
+		err = ft_process_prcchr(data);
 	return (err);
 }
 
