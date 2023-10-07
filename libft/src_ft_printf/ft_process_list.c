@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 11:51:51 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/07 14:23:40 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/07 15:27:36 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,12 +52,28 @@ int	ft_padright(int i, char c, char **s)
 
 int	ft_signed_flags(t_pf_info *data)
 {
-	if (data->flag & PLUS)
-		data->out = ft_strjoin_freeright("+", data->out);
-	else if (data->flag & SPACE)
-		data->out = ft_strjoin_freeright(" ", data->out);
-	if (!data->out)
-		return (1);
+	if (ft_strlen(data->out) == data->field_width && data->flag & ZERO && data->out[0] == '0')
+	{
+		if (data->value.ll < 0)
+			data->out[0] = '-';
+		else if (data->flag & PLUS)
+			data->out[0] = '+';
+		else if (data->flag & SPACE)
+			data->out[0] = ' ';
+		if (!data->out)
+			return (1);
+	}
+	else
+	{
+		if (data->value.ll < 0)
+			data->out = ft_strjoin_freeright("-", data->out);
+		else if (data->flag & PLUS)
+			data->out = ft_strjoin_freeright("+", data->out);
+		else if (data->flag & SPACE)
+			data->out = ft_strjoin_freeright(" ", data->out);
+		if (!data->out)
+			return (1);
+	}
 	return (0);
 }
 
@@ -86,10 +102,19 @@ int	ft_field_width(t_pf_info *data)
 int	ft_process_prcint(t_pf_info *data)
 {
 	int	i;
+	char *temp;
 	//get number
-	data->out = ft_itoa(data->value.i);
+	data->out = ft_ltoa_base(data->value.ll, BASE_CAP, 10);
 	if(!data->out)
 		return (1);
+	if (data->out[0] == '-')//remove sign
+	{
+		temp = data->out;
+		data->out = ft_strdup(&data->out[1]);
+		free(temp);
+		if(!data->out)
+			return (1);
+	}
 	//process precision
 	printf("RAW INT: %s\n", data->out); //remove later
 	if (data->precision || (data->flag & ZERO && !(data->flag & 0x84))) //0x84 PERIOD & MINUS
@@ -103,7 +128,7 @@ int	ft_process_prcint(t_pf_info *data)
 	}
 	printf("PRECISION INT: %s\n", data->out); 
 	//process + ' '
-	if (data->value.i >= 0 && ft_signed_flags(data))
+	if (ft_signed_flags(data))
 		return (1);
 	printf("FLAG INT: %s\n", data->out); 
 	//process field width (if zero and no precision fill with zeros else fill with space) //check the - flag

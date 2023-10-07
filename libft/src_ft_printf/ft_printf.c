@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 14:59:58 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/04 14:44:53 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/07 15:08:23 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,17 +239,15 @@ void ft_get_int_value_helper(t_pf_info *data, va_list arg, int flag)
 {
 	data->value_flag = flag;
 	if (flag & SIGNED_CHAR)
-		data->value.i = va_arg(arg, int);//char promoted to int
+		data->value.ll = (long long)va_arg(arg, int);//char promoted to int
 	else if (flag & SIGNED_SHORT)
-		data->value.i = va_arg(arg, int);//short promoted to int
+		data->value.ll = (long long)va_arg(arg, int);//short promoted to int
 	else if (flag & LONG)
-		data->value.l = va_arg(arg, long);
+		data->value.ll = (long long)va_arg(arg, long);
 	else if (flag & LONG_LONG)
-		data->value.ll = va_arg(arg, long long);
-	else if (flag & SIZE_T)
-		data->value.st = va_arg(arg, size_t);
+		data->value.ll = (long long)va_arg(arg, long long);
 	else if (flag & INT)
-		data->value.i = va_arg(arg, int);
+		data->value.ll = (long long)va_arg(arg, int);
 }
 
 int	ft_get_int_value(t_pf_info *data, va_list arg)
@@ -264,8 +262,6 @@ int	ft_get_int_value(t_pf_info *data, va_list arg)
 			ft_get_int_value_helper(data, arg, LONG);
 		else if (data->type_flag & LLL)
 			ft_get_int_value_helper(data, arg, LONG_LONG);
-		else if (data->type_flag & LOWERCASE_Z)
-			ft_get_int_value_helper(data, arg, SIZE_T);
 		else
 			return (1);
 	}
