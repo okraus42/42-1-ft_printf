@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 14:59:58 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/07 15:08:23 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/08 12:59:35 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,17 +286,17 @@ void ft_get_unsigned_int_value_helper(t_pf_info *data, va_list arg, int flag)
 {
 	data->value_flag = flag;
 	if (flag & UNSIGNED_CHAR)
-		data->value.ui = va_arg(arg, unsigned int); //char promoted to int
+		data->value.ull = va_arg(arg, unsigned int); //char promoted to int
 	else if (flag & UNSIGNED_SHORT)
-		data->value.ui = va_arg(arg, unsigned int); //short promoted to int
+		data->value.ull = va_arg(arg, unsigned int); //short promoted to int
 	else if (flag & UNSIGNED_LONG)
-		data->value.ul = va_arg(arg, unsigned long);
+		data->value.ull = va_arg(arg, unsigned long);
 	else if (flag & UNSIGNED_LONG_LONG)
 		data->value.ull = va_arg(arg, unsigned long long);
 	else if (flag & SIZE_T)
-		data->value.st = va_arg(arg, size_t);
+		data->value.ull = va_arg(arg, size_t);
 	else if (flag & UNSIGNED_INT)
-		data->value.ui = va_arg(arg, unsigned int);
+		data->value.ull = va_arg(arg, unsigned int);
 }
 
 int	ft_get_unsigned_int_value(t_pf_info *data, va_list arg)
@@ -499,7 +499,7 @@ char	*ft_get_print_string(va_list arg, const char *s)
 		lst = NULL;
 	}
 	//join strings;
-	str = ft_print_lst_to_strinf(lst);
+	str = ft_print_lst_to_string(lst);
 	//free everything except the str;
 	printf("FINAL STRING: %s\n", str);
 	//debug print list

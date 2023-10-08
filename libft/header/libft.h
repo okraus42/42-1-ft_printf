@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/07 11:49:00 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/08 13:36:52 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # endif
 
 // FT_PRINTF definitions
-# define F_TYPES	"cspdiuxXbBPC%"
+# define F_TYPES	"cspdiouxXBbPC%"
 # define F_FLAGS	"0#-+ 'I"
 # define F_NUMBERS	"0123456789*"
 # define F_MODIFIER	"hlLz"
@@ -120,7 +120,7 @@ typedef enum e_print_type_flag
 	LOWERCASE_S = 0x800000,			//string
 	LOWERCASE_P = 0x1000000,		//pointer
 	UPPERCASE_C = 0x2000000,		//colours and formating
-	LOWERCASE_B = 0x4000000,		//binary unsigned int
+	LOWERCASE_B = 0x4000000,		//binary unsigned int (maybe change to signed base?)
 	UPPERCASE_B = 0x8000000,		//bases unsigned int
 	UPPERCASE_P = 0x10000000,		//dunno?
 	PERCENTAGE = 0x20000000			// percentage
@@ -340,7 +340,7 @@ char			*ft_strjoin_freeboth(char *s1, char *s2);
 char			*ft_ultoa_base(unsigned long long n, char *basestr, int baselen);
 char			*ft_ltoa_base(long long n, char *basestr, int baselen);
 char			*ft_string_copy_n(char const *str, int n);
-char			*ft_print_lst_to_strinf(t_list *lst);
+char			*ft_print_lst_to_string(t_list *lst);
 // void			ft_putstuff(va_list arg, const char *s, int *q, t_output *t);
 // void			ft_writestuff(int fd, const char *s, int *q);
 // int				ft_pf_putchar_fd(char c, int fd, t_output *t);

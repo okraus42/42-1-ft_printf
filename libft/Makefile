@@ -6,7 +6,7 @@
 #    By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/14 13:43:18 by okraus            #+#    #+#              #
-#    Updated: 2023/10/04 14:41:21 by okraus           ###   ########.fr        #
+#    Updated: 2023/10/08 13:38:41 by okraus           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,7 +21,7 @@ ECHO		=	echo "[`expr ${HIT_COUNT1} '*' 100 / ${HIT_TOTAL}`%]"
 endif
 
 NAME		=	libft.a
-INCS		=	libft.h
+INCS		=	header/libft.h
 LIBC		=	ar rcs
 CC 			=	cc
 CFLAGS		=	-Wall -Wextra -Werror -g
@@ -198,7 +198,7 @@ $(OBJ_DIR)%.o:	$(SRC_LIB_DIR)%.c # start_msg
 				@$(CC) $(CFLAGS) -c $< -o $@
 				@$(ECHO)
 
-$(OBJ_DIR)%.o:	$(SRC_EX_DIR)%.c
+$(OBJ_DIR)%.o:	$(SRC_EX_DIR)%.c 
 				@mkdir -p $(OBJ_DIR)
 				@$(SLEEP)
 				@echo "$(RETURN)$(RETURN)$(YELLOW)Compiling extras: $< $(NRM_FORMAT)"
@@ -216,7 +216,7 @@ $(OBJ_DIR)%.o:	$(SRC_GNL_DIR)%.c # lib_msg
 				@$(CC) $(CFLAGS) -c $< -o $@
 				@$(ECHO)
 
-$(OBJ_DIR)%.o:	$(SRC_PF_DIR)%.c # gnl_msg
+$(OBJ_DIR)%.o:	$(SRC_PF_DIR)%.c  # gnl_msg
 				@mkdir -p $(OBJ_DIR)
 				@$(SLEEP)
 				@echo "$(RETURN)$(RETURN)$(YELLOW)Compiling ft printf: $< $(NRM_FORMAT)"
@@ -225,7 +225,7 @@ $(OBJ_DIR)%.o:	$(SRC_PF_DIR)%.c # gnl_msg
 				@$(CC) $(CFLAGS) -c $< -o $@
 				@$(ECHO)
 
-$(NAME): 		$(OBJ) # pf_msg
+$(NAME): 		$(OBJ)  # pf_msg
 				@echo "$(RETURN)$(RETURN)$(RETURN)$(GREEN)LIBFT compilation complete!$(NRM_FORMAT)"
 				@$(LIBC) $(NAME) $(OBJ)
 				@$(PRINT2)

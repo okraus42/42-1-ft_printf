@@ -6,13 +6,13 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:22:52 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/04 14:45:38 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/08 12:36:55 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/libft.h"
 
-char	*ft_print_lst_to_strinf(t_list *lst)
+char	*ft_print_lst_to_string(t_list *lst)
 {
 	t_pf_info	*data;
 	char		*str;

@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 11:51:51 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/07 15:27:36 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/08 14:06:12 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -183,6 +183,178 @@ int	ft_process_prcchr(t_pf_info *data)
 	return (0);
 }
 
+int	ft_unsigned_flags(t_pf_info *data)
+{
+	printf("data orig %s\n", data->orig);
+	printf("data out %s\n", data->out);
+	printf("data dataflag %x\n", data->type_flag);
+	printf("data ppppflag %x\n", data->type_flag & LOWERCASE_P);
+	if (data->flag & HASHTAG || data->type_flag & LOWERCASE_P)
+	{
+		printf("HELLO????\n");
+		if (data->type_flag & LOWERCASE_O)
+			data->out = ft_strjoin_freeright("0", data->out);
+		else if (data->type_flag & 0x1001000) //x or p
+		{
+			printf("HELLO????\n");
+			data->out = ft_strjoin_freeright("0x", data->out);
+		}
+		else if (data->type_flag & UPPERCASE_X)
+			data->out = ft_strjoin_freeright("0X", data->out);
+		if(!data->out)
+			return (1);
+	}
+	printf("data out %s\n", data->out);
+	return (0);
+}
+
+
+int	ft_process_prcu(t_pf_info *data)
+{
+	int	i;
+	//get number
+	data->out = ft_ultoa_base(data->value.ull, BASE_CAP, 10);
+	if(!data->out)
+		return (1);
+	if (data->precision || (data->flag & ZERO && !(data->flag & 0x84))) //0x84 PERIOD & MINUS
+	{
+		i = data->precision - ft_strlen(data->out);
+		if (!(data->flag & PERIOD))
+			i = data->field_width - ft_strlen(data->out);
+		if (i > 0)
+			if (ft_padleft(i, '0', &data->out))
+				return (1);
+	}
+	//process #
+	if (ft_unsigned_flags(data))
+		return (1);
+	//process field width (if zero and no precision fill with zeros else fill with space) //check the - flag
+	if (data->field_width > ft_strlen(data->out))
+		if (ft_field_width(data))
+			return (1);
+	data->outlen = ft_strlen(data->out);
+	return (0);
+}
+
+int	ft_process_prco(t_pf_info *data)
+{
+	int	i;
+	//get number
+	data->out = ft_ultoa_base(data->value.ull, BASE_CAP, 18);
+	if(!data->out)
+		return (1);
+	if (data->precision || (data->flag & ZERO && !(data->flag & 0x84))) //0x84 PERIOD & MINUS
+	{
+		i = data->precision - ft_strlen(data->out);
+		if (!(data->flag & PERIOD))
+			i = data->field_width - ft_strlen(data->out);
+		if (i > 0)
+			if (ft_padleft(i, '0', &data->out))
+				return (1);
+	}
+	//process #
+	if (ft_unsigned_flags(data))
+		return (1);
+	//process field width (if zero and no precision fill with zeros else fill with space) //check the - flag
+	if (data->field_width > ft_strlen(data->out))
+		if (ft_field_width(data))
+			return (1);
+	data->outlen = ft_strlen(data->out);
+	return (0);
+}
+
+int	ft_process_prcx(t_pf_info *data)
+{
+	int	i;
+	//get number
+	data->out = ft_ultoa_base(data->value.ull, BASE_SML, 16);
+	if(!data->out)
+		return (1);
+	if (data->precision || (data->flag & ZERO && !(data->flag & 0x84))) //0x84 PERIOD & MINUS
+	{
+		i = data->precision - ft_strlen(data->out);
+		if (!(data->flag & PERIOD))
+			i = data->field_width - ft_strlen(data->out);
+		if (i > 0)
+			if (ft_padleft(i, '0', &data->out))
+				return (1);
+	}
+	//process #
+	if (ft_unsigned_flags(data))
+		return (1);
+	//process field width (if zero and no precision fill with zeros else fill with space) //check the - flag
+	if (data->field_width > ft_strlen(data->out))
+		if (ft_field_width(data))
+			return (1);
+	data->outlen = ft_strlen(data->out);
+	return (0);
+}
+
+int	ft_process_prcx2(t_pf_info *data)
+{
+	int	i;
+	//get number
+	data->out = ft_ultoa_base(data->value.ull, BASE_CAP, 16);
+	if(!data->out)
+		return (1);
+	if (data->precision || (data->flag & ZERO && !(data->flag & 0x84))) //0x84 PERIOD & MINUS
+	{
+		i = data->precision - ft_strlen(data->out);
+		if (!(data->flag & PERIOD))
+			i = data->field_width - ft_strlen(data->out);
+		if (i > 0)
+			if (ft_padleft(i, '0', &data->out))
+				return (1);
+	}
+	//process #
+	if (ft_unsigned_flags(data))
+		return (1);
+	//process field width (if zero and no precision fill with zeros else fill with space) //check the - flag
+	if (data->field_width > ft_strlen(data->out))
+		if (ft_field_width(data))
+			return (1);
+	data->outlen = ft_strlen(data->out);
+	return (0);
+}
+
+int	ft_process_prcuns(t_pf_info *data)
+{
+	if (data->type_flag & LOWERCASE_O && ft_process_prco(data))
+		return (1);
+	else if (data->type_flag & LOWERCASE_U && ft_process_prcu(data))
+		return (1);
+	else if (data->type_flag & LOWERCASE_O && ft_process_prco(data))
+		return (1);
+	else if (data->type_flag & LOWERCASE_X && ft_process_prcx(data))
+		return (1);
+	else if (data->type_flag & UPPERCASE_X && ft_process_prcx2(data))
+		return (1);
+	if(!data->out)
+		return (1);
+	return (0);
+}
+
+int	ft_process_prcptr(t_pf_info *data)
+{
+	//process precision
+	if (!data->value.p)
+		data->out = ft_strdup("(nil)");
+	else
+		data->out = ft_ultoa_base((unsigned long long)data->value.p, BASE_SML, 16);
+	if(!data->out)
+		return (1);
+	printf("RAW STR: %s\n", data->out); //remove later
+	if (data->value.p && ft_unsigned_flags(data))
+		return (1);
+	//process field width (if zero and no precision fill with zeros else fill with space) //check the - flag
+	if (data->field_width > ft_strlen(data->out))
+		if (ft_field_width(data))
+			return (1);
+	data->outlen = ft_strlen(data->out);
+	printf("PROCESSED STR: %s\n", data->out); //remove later
+	return (0);
+}
+
 int	ft_process_percent(t_pf_info *data)
 {
 	int	err;
@@ -190,12 +362,16 @@ int	ft_process_percent(t_pf_info *data)
 	err = 1;
 	if (data->type_flag & SIGNED_INT)
 		err = ft_process_prcint(data);
+	if (data->type_flag & CONVERSION_UNSIGNED)
+		err = ft_process_prcuns(data);
 	if (data->type_flag & PERCENTAGE)
 		err = ft_process_prc(data);
 	if (data->type_flag & LOWERCASE_S)
 		err = ft_process_prcstr(data);
 	if (data->type_flag & LOWERCASE_C)
 		err = ft_process_prcchr(data);
+	if (data->type_flag & LOWERCASE_P)
+		err = ft_process_prcptr(data);
 	return (err);
 }
 
