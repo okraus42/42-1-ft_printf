@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 11:51:51 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/08 14:06:12 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/08 15:57:09 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,10 @@ int	ft_padleft(int i, char c, char **s)
 	str[i] = 0;
 	str = ft_memset(str, c, i);
 	str[i] = 0;
-	printf("PADLEFT: %s\n", str);
-	printf("PADLEFT: %s\n", *s);
+	// printf("PADLEFT: %s\n", str);
+	// printf("PADLEFT: %s\n", *s);
 	*s = ft_strjoin_freeboth(str, *s);
-	printf("PADLEFT: %s\n", *s);
+	// printf("PADLEFT: %s\n", *s);
 	if (!*s)
 		return (1);
 	return (0);
@@ -41,10 +41,10 @@ int	ft_padright(int i, char c, char **s)
 	str[i] = 0;
 	str = ft_memset(str, c, i);
 	str[i] = 0;
-	printf("PADRIGHT: %s\n", str);
-	printf("PADRIGHT: %s\n", *s);
+	// printf("PADRIGHT: %s\n", str);
+	// printf("PADRIGHT: %s\n", *s);
 	*s = ft_strjoin_freeboth(*s, str);
-	printf("PADRIGHT: %s\n", *s);
+	// printf("PADRIGHT: %s\n", *s);
 	if (!*s)
 		return (1);
 	return (0);
@@ -116,7 +116,7 @@ int	ft_process_prcint(t_pf_info *data)
 			return (1);
 	}
 	//process precision
-	printf("RAW INT: %s\n", data->out); //remove later
+	// printf("RAW INT: %s\n", data->out); //remove later
 	if (data->precision || (data->flag & ZERO && !(data->flag & 0x84))) //0x84 PERIOD & MINUS
 	{
 		i = data->precision - ft_strlen(data->out);
@@ -126,17 +126,17 @@ int	ft_process_prcint(t_pf_info *data)
 			if (ft_padleft(i, '0', &data->out))
 				return (1);
 	}
-	printf("PRECISION INT: %s\n", data->out); 
+	// printf("PRECISION INT: %s\n", data->out); 
 	//process + ' '
 	if (ft_signed_flags(data))
 		return (1);
-	printf("FLAG INT: %s\n", data->out); 
+	// printf("FLAG INT: %s\n", data->out); 
 	//process field width (if zero and no precision fill with zeros else fill with space) //check the - flag
 	if (data->field_width > ft_strlen(data->out))
 		if (ft_field_width(data))
 			return (1);
 	data->outlen = ft_strlen(data->out);
-	printf("PROCESSED INT: %s\n", data->out); //remove later
+	// printf("PROCESSED INT: %s\n", data->out); //remove later
 	return (0);
 }
 
@@ -160,13 +160,13 @@ int	ft_process_prcstr(t_pf_info *data)
 		data->out = ft_stringcopy(data->value.s);
 	if(!data->out)
 		return (1);
-	printf("RAW STR: %s\n", data->out); //remove later
+	// printf("RAW STR: %s\n", data->out); //remove later
 	//process field width (if zero and no precision fill with zeros else fill with space) //check the - flag
 	if (data->field_width > ft_strlen(data->out))
 		if (ft_field_width(data))
 			return (1);
 	data->outlen = ft_strlen(data->out);
-	printf("PROCESSED STR: %s\n", data->out); //remove later
+	// printf("PROCESSED STR: %s\n", data->out); //remove later
 	return (0);
 }
 
@@ -185,18 +185,18 @@ int	ft_process_prcchr(t_pf_info *data)
 
 int	ft_unsigned_flags(t_pf_info *data)
 {
-	printf("data orig %s\n", data->orig);
-	printf("data out %s\n", data->out);
-	printf("data dataflag %x\n", data->type_flag);
-	printf("data ppppflag %x\n", data->type_flag & LOWERCASE_P);
+	// printf("data orig %s\n", data->orig);
+	// printf("data out %s\n", data->out);
+	// printf("data dataflag %x\n", data->type_flag);
+	// printf("data ppppflag %x\n", data->type_flag & LOWERCASE_P);
 	if (data->flag & HASHTAG || data->type_flag & LOWERCASE_P)
 	{
-		printf("HELLO????\n");
+		// printf("HELLO????\n");
 		if (data->type_flag & LOWERCASE_O)
 			data->out = ft_strjoin_freeright("0", data->out);
 		else if (data->type_flag & 0x1001000) //x or p
 		{
-			printf("HELLO????\n");
+			// printf("HELLO????\n");
 			data->out = ft_strjoin_freeright("0x", data->out);
 		}
 		else if (data->type_flag & UPPERCASE_X)
@@ -204,7 +204,7 @@ int	ft_unsigned_flags(t_pf_info *data)
 		if(!data->out)
 			return (1);
 	}
-	printf("data out %s\n", data->out);
+	// printf("data out %s\n", data->out);
 	return (0);
 }
 
@@ -240,7 +240,8 @@ int	ft_process_prco(t_pf_info *data)
 {
 	int	i;
 	//get number
-	data->out = ft_ultoa_base(data->value.ull, BASE_CAP, 18);
+	data->out = ft_ultoa_base(data->value.ull, BASE_CAP, 8);
+	//printf("%p\n", data->out);
 	if(!data->out)
 		return (1);
 	if (data->precision || (data->flag & ZERO && !(data->flag & 0x84))) //0x84 PERIOD & MINUS
@@ -260,6 +261,7 @@ int	ft_process_prco(t_pf_info *data)
 		if (ft_field_width(data))
 			return (1);
 	data->outlen = ft_strlen(data->out);
+	//printf("%p\n", data->out);
 	return (0);
 }
 
@@ -323,8 +325,6 @@ int	ft_process_prcuns(t_pf_info *data)
 		return (1);
 	else if (data->type_flag & LOWERCASE_U && ft_process_prcu(data))
 		return (1);
-	else if (data->type_flag & LOWERCASE_O && ft_process_prco(data))
-		return (1);
 	else if (data->type_flag & LOWERCASE_X && ft_process_prcx(data))
 		return (1);
 	else if (data->type_flag & UPPERCASE_X && ft_process_prcx2(data))
@@ -343,7 +343,7 @@ int	ft_process_prcptr(t_pf_info *data)
 		data->out = ft_ultoa_base((unsigned long long)data->value.p, BASE_SML, 16);
 	if(!data->out)
 		return (1);
-	printf("RAW STR: %s\n", data->out); //remove later
+	// printf("RAW STR: %s\n", data->out); //remove later
 	if (data->value.p && ft_unsigned_flags(data))
 		return (1);
 	//process field width (if zero and no precision fill with zeros else fill with space) //check the - flag
@@ -351,7 +351,7 @@ int	ft_process_prcptr(t_pf_info *data)
 		if (ft_field_width(data))
 			return (1);
 	data->outlen = ft_strlen(data->out);
-	printf("PROCESSED STR: %s\n", data->out); //remove later
+	// printf("PROCESSED STR: %s\n", data->out); //remove later
 	return (0);
 }
 
@@ -393,7 +393,7 @@ int	ft_process_string(t_pf_info *data)
 		len++;
 	}
 	data->out[len] = 0;
-	printf("PROCESSED BASIC STR: %s\n", data->out); //remove later
+	// printf("PROCESSED BASIC STR: %s\n", data->out); //remove later
 	return (0);
 }
 
@@ -410,7 +410,7 @@ int	ft_process_list(t_list *lst)
 			err = ft_process_percent(data);
 		else
 			err = ft_process_string(data);
-		printf("err = %i, str = %s\n", err, data->orig);
+		// printf("err = %i, str = %s\n", err, data->orig);
 		lst = lst->next;
 		
 	}

@@ -1,7 +1,7 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_printf.c                                        :+:      :+:    :+:   */
+/*   ft_// printf.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
@@ -22,17 +22,17 @@ void ft_print_list(t_list *lst)
 		{
 			if (data->orig)
 			{
-				printf("string: %s\n", data->orig);
+				// printf("string: %s\n", data->orig);
 			}
 			else
 				write(1, "string not found", 16);
-			printf("data type: %i\n", data->type);
-			printf("flag: %x\n", data->flag);
-			printf("value_flag: %x\n", data->value_flag);
-			printf("type_flag: %x\n", data->type_flag);
-			printf("value: %i\n", data->value.i);
-			printf("width: %x\n", data->field_width);
-			printf("precision: %x\n", data->precision);
+			// printf("data type: %i\n", data->type);
+			// printf("flag: %x\n", data->flag);
+			// printf("value_flag: %x\n", data->value_flag);
+			// printf("type_flag: %x\n", data->type_flag);
+			// printf("value: %i\n", data->value.i);
+			// printf("width: %x\n", data->field_width);
+			// printf("precision: %x\n", data->precision);
 		}
 		else
 			write(1, "data not found\n", 15);
@@ -145,7 +145,7 @@ void	ft_init_field_width(int *i, int *err, t_pf_info *data, va_list arg)
 	int	n;
 	long long	num;
 
-	printf("WIDTH\n");
+	// printf("WIDTH\n");
 	if (data->orig[*i] == '*')
 	{
 		data->field_width = va_arg(arg, unsigned int);
@@ -153,23 +153,23 @@ void	ft_init_field_width(int *i, int *err, t_pf_info *data, va_list arg)
 	}
 	else
 	{
-		printf("WIDTH2\n");
-		printf("%s\n", &data->orig[*i]);
+		// printf("WIDTH2\n");
+		// printf("%s\n", &data->orig[*i]);
 		n = 0;
 		num = ft_latoi(&data->orig[*i]);
-		printf("num = %lli\n", num);
+		// printf("num = %lli\n", num);
 		while (ft_isdigit(data->orig[*i]))
 		{
 			++n;
 			++(*i);
 		}
-		printf("n = %i\n", n);
-		printf("err = %i\n", *err);
+		// printf("n = %i\n", n);
+		// printf("err = %i\n", *err);
 		if (n > 15 || num > 0xFFFFFFFF)		//no need for crazy big precision.
 			*err = 1;
 		else
 			data->field_width = (unsigned int)num;
-		printf("err2 = %i\n", *err);
+		// printf("err2 = %i\n", *err);
 		if (*err) //REMOVE LATER
 			printf("ERR WIDTH: %s\n", data->orig); //REMOVE LATER
 	}
@@ -180,7 +180,7 @@ void	ft_init_precision(int *i, int *err, t_pf_info *data, va_list arg)
 	int			n;
 	long long	num;
 
-	write(1, "PRECISION\n", 10);
+	//write(1, "PRECISION\n", 10);
 	data->flag |= PERIOD;
 	if (data->orig[*i] == '*')
 	{
@@ -189,7 +189,7 @@ void	ft_init_precision(int *i, int *err, t_pf_info *data, va_list arg)
 	}
 	else
 	{
-		printf("PRECISION2\n");
+		// printf("PRECISION2\n");
 		n = 0;
 		num = ft_latoi(&data->orig[*i]);
 		while (ft_isdigit(data->orig[*i]))
@@ -484,7 +484,7 @@ char	*ft_get_print_string(va_list arg, const char *s)
 	//ft_print_list(lst);  //just for testing and debugging.
 	if (ft_init_list(arg, lst))
 	{ //checks for proper formating of the % sequences and returns non-zero value on error.
-		printf("ERROR ERRROR ERRROR\nERRROR\nERROR ERRROR ERRROR\n");
+		// printf("ERROR ERRROR ERRROR\nERRROR\nERROR ERRROR ERRROR\n");
 		ft_print_list(lst);
 		free(lst); //should free the list properly.
 		lst = NULL;
@@ -493,7 +493,7 @@ char	*ft_get_print_string(va_list arg, const char *s)
 	//process list
 	if (ft_process_list(lst))
 	{ //checks for proper formating of the % sequences and returns non-zero value on error.
-		printf("ERROR PROCESS ERRROR\nERRROR\nERROR PROCESS ERRROR\n");
+		// printf("ERROR PROCESS ERRROR\nERRROR\nERROR PROCESS ERRROR\n");
 		ft_print_list(lst);
 		free(lst); //should free the list properly.
 		lst = NULL;
@@ -501,10 +501,12 @@ char	*ft_get_print_string(va_list arg, const char *s)
 	//join strings;
 	str = ft_print_lst_to_string(lst);
 	//free everything except the str;
-	printf("FINAL STRING: %s\n", str);
+	// printf("FINAL STRING: %s\n", str);
 	//debug print list
 	if (lst)
 		ft_print_list(lst); 
+	if (lst)
+		ft_lstclear(&lst, ft_clear_pf_data);
 	return (str);
 }
 

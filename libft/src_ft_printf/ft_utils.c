@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:36:53 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/07 11:54:26 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/08 15:55:46 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ char	*ft_ultoa_base(unsigned long long n, char *basestr, int baselen)
 		return (NULL);
 	i = ft_ulnumlen_base(n, baselen) - 1;
 	str = (char *)malloc((i + 2) * sizeof(char));
+	//printf("ub1: %p\n", str);
 	if (str == NULL)
 		return (NULL);
 	str[i + 1] = 0;
@@ -93,6 +94,7 @@ char	*ft_ultoa_base(unsigned long long n, char *basestr, int baselen)
 		n = n / baselen;
 		i--;
 	}
+	//printf("ub2: %p\n", str);
 	return (str);
 }
 
@@ -213,6 +215,35 @@ char	*ft_strjoin_freeboth(char *s1, char *s2)
 	s3[i + j] = 0;
 	free(s1);
 	free(s2);
-	printf("STRJOINFREEBOTH: %s\n", s3);
+	// printf("STRJOINFREEBOTH: %s\n", s3);
 	return (s3);
+}
+
+// void	ft_lstclear(t_list **lst, void (*del)(void *))
+// {
+// 	t_list	*tmp;
+
+// 	if (lst)
+// 	{
+// 		while (*lst)
+// 		{
+// 			tmp = (*lst)->next;
+// 			ft_lstdelone(*lst, del);
+// 			(*lst) = tmp;
+// 		}
+// 	}
+// 	lst = NULL;
+// }
+
+void	ft_clear_pf_data(void *vdata)
+{
+	t_pf_info *data;
+
+	data = vdata;
+	//printf("free: %p\n", data->out);
+	if (data->out)
+		free(data->out);
+	data->out = NULL;
+	free(data);
+	data = NULL;
 }

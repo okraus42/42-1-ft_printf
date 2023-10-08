@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/08 13:36:52 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/08 15:38:58 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,6 +337,7 @@ int				ft_process_list(t_list *lst);
 char			*ft_strjoin_freeleft(char *s1, char const *s2);
 char			*ft_strjoin_freeright(char const *s1, char *s2);
 char			*ft_strjoin_freeboth(char *s1, char *s2);
+void			ft_clear_pf_data(void *vdata);
 char			*ft_ultoa_base(unsigned long long n, char *basestr, int baselen);
 char			*ft_ltoa_base(long long n, char *basestr, int baselen);
 char			*ft_string_copy_n(char const *str, int n);
