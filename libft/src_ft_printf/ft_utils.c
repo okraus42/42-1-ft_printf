@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:36:53 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/08 15:55:46 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/10 15:43:20 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,6 @@ char	*ft_ultoa_base(unsigned long long n, char *basestr, int baselen)
 		return (NULL);
 	i = ft_ulnumlen_base(n, baselen) - 1;
 	str = (char *)malloc((i + 2) * sizeof(char));
-	//printf("ub1: %p\n", str);
 	if (str == NULL)
 		return (NULL);
 	str[i + 1] = 0;
@@ -94,7 +93,6 @@ char	*ft_ultoa_base(unsigned long long n, char *basestr, int baselen)
 		n = n / baselen;
 		i--;
 	}
-	//printf("ub2: %p\n", str);
 	return (str);
 }
 
@@ -122,7 +120,6 @@ char	*ft_string_copy_n(char const *str, int n)
 	return (dest);
 }
 
-
 char	*ft_strjoin_freeright(char const *s1, char *s2)
 {
 	size_t	i;
@@ -133,10 +130,7 @@ char	*ft_strjoin_freeright(char const *s1, char *s2)
 	i = ft_strlen(s2);
 	s3 = (char *)malloc((i + j + 1) * sizeof(char));
 	if (s3 == NULL)
-	{
-		free (s2);
-		return (NULL);
-	}
+		return (free(s2), NULL);
 	i = 0;
 	while (s1[i])
 	{
@@ -150,8 +144,7 @@ char	*ft_strjoin_freeright(char const *s1, char *s2)
 		i++;
 	}
 	s3[i + j] = 0;
-	free(s2);
-	return (s3);
+	return (free(s2), s3);
 }
 
 char	*ft_strjoin_freeleft(char *s1, char const *s2)
@@ -164,10 +157,7 @@ char	*ft_strjoin_freeleft(char *s1, char const *s2)
 	i = ft_strlen(s2);
 	s3 = (char *)malloc((i + j + 1) * sizeof(char));
 	if (s3 == NULL)
-	{
-		free(s1);
-		return (NULL);
-	}
+		return (free(s1), NULL);
 	i = 0;
 	while (s1[i])
 	{
@@ -181,8 +171,7 @@ char	*ft_strjoin_freeleft(char *s1, char const *s2)
 		i++;
 	}
 	s3[i + j] = 0;
-	free(s1);
-	return (s3);
+	return (free(s1), s3);
 }
 
 char	*ft_strjoin_freeboth(char *s1, char *s2)
@@ -195,11 +184,7 @@ char	*ft_strjoin_freeboth(char *s1, char *s2)
 	i = ft_strlen(s2);
 	s3 = malloc((i + j + 1) * sizeof(char));
 	if (s3 == NULL)
-	{
-		free(s1);
-		free(s2);
-		return (NULL);
-	}
+		return (free(s1), free(s2), NULL);
 	i = 0;
 	while (s1[i])
 	{
@@ -213,10 +198,7 @@ char	*ft_strjoin_freeboth(char *s1, char *s2)
 		i++;
 	}
 	s3[i + j] = 0;
-	free(s1);
-	free(s2);
-	// printf("STRJOINFREEBOTH: %s\n", s3);
-	return (s3);
+	return (free(s1), free(s2), s3);
 }
 
 // void	ft_lstclear(t_list **lst, void (*del)(void *))
@@ -237,10 +219,9 @@ char	*ft_strjoin_freeboth(char *s1, char *s2)
 
 void	ft_clear_pf_data(void *vdata)
 {
-	t_pf_info *data;
+	t_pf_info	*data;
 
 	data = vdata;
-	//printf("free: %p\n", data->out);
 	if (data->out)
 		free(data->out);
 	data->out = NULL;

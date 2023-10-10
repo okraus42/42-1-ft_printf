@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/08 15:38:58 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/10 15:29:50 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,23 +39,63 @@
 
 typedef enum e_print_flag
 {
-	ZERO = 0x1,						// The value should be zero padded.  For d, i, o, u, x, X, a, A, e, E, f, F, g, and G conversions, the converted value is padded on the left with zeros rather than blanks.  If the 0 and - flags both appear, the 0 flag is ignored.  If a precision is given with an integer conversion (d, i, o, u, x, and X), the 0 flag is ignored.
-	HASHTAG = 0x2,					// The value should be converted to an "alternate form".  For o conversions, the first character of the output string is made zero (by prefixing a 0 if it was not zero already). For x and X conversions, a nonzero result has the string "0x" (or "0X" for X conversions) prepended to it.  For a, A, e, E, f, F, g, and G conversions, the result will always contain a decimal point, even if no digits follow it (normally, a decimal point appears in the results of those conversions only if a digit follows).  For g and G conversions, trailing zeros are not removed from the result as they would otherwise be.
-	MINUS = 0x4,					// The converted value is to be left adjusted on the field boundary.  (The default is right justification.)  The converted value is padded on the right with blanks, rather than on the left with blanks or zeros.  A - overrides a 0 if both are given.
-	PLUS = 0x8,						// A sign (+ or -) should always be placed before a number produced by a signed conversion.  By default, a sign is used only for negative numbers.  A + overrides a space if both are used.
-	SPACE = 0x10,					// (a space) A blank should be left before a positive number (or empty string) produced by a signed conversion.
-	APOSTROPHE = 0x20,				// For decimal conversion (i, d, u, f, F, g, G) the output is to be grouped with thousands' grouping characters if the locale information indicates any.
-	UPPERCASE_I = 0x40,				// ignored for now
-	PERIOD = 0x80,					//
-	FLAGB = 0x100,					//
-	FLAGC = 0x200,					//
-	FLAG1 = 0x400,					//
-	FLAG2 = 0x800,					//
-	FLAG3 = 0x1000,					//
-	FLAG4 = 0x2000,					//
-	FLAG5 = 0x4000,					//
-	FLAG6 = 0x8000,					//
+	ZERO = 0x1,
+	HASHTAG = 0x2,
+	MINUS = 0x4,
+	PLUS = 0x8,
+	SPACE = 0x10,
+	APOSTROPHE = 0x20,
+	UPPERCASE_I = 0x40,
+	PERIOD = 0x80,
+	FLAGB = 0x100,
+	FLAGC = 0x200,
+	FLAG1 = 0x400,
+	FLAG2 = 0x800,
+	FLAG3 = 0x1000,
+	FLAG4 = 0x2000,
+	FLAG5 = 0x4000,
+	FLAG6 = 0x8000,
 }	t_print_flag;
+
+// typedef enum e_print_flag
+// {
+// 	ZERO = 0x1,						// The value should be zero padded.  
+//	For d, i, o, u, x, X, a, A, e, E, f, F, g, and G conversions, the converted
+// value is padded on the left with zeros rather than blanks.  If the 0 and -
+// flags both appear, the 0 flag is ignored.  If a precision is given with an
+// integer conversion (d, i, o, u, x, and X), the 0 flag is ignored.
+// 	HASHTAG = 0x2,					// The value should be converted to an 
+// "alternate form".  For o conversions, the first character of the output
+// string is made zero (by prefixing a 0 if it was not zero already). For x and
+// X conversions, a nonzero result has the string "0x" (or "0X" for X
+// conversions) prepended to it.  For a, A, e, E, f, F, g, and G conversions,
+// the result will always contain a decimal point, even if no digits follow it
+// (normally, a decimal point appears in the results of those conversions only
+// if a digit follows).  For g and G conversions, trailing zeros are not removed
+// from the result as they would otherwise be.
+// 	MINUS = 0x4,					// The converted value is to be left
+// adjusted on the field boundary.  (The default is right justification.) 
+// The converted value is padded on the right with blanks, rather than on the
+// left with blanks or zeros.  A - overrides a 0 if both are given.
+// 	PLUS = 0x8,						// A sign (+ or -) should always be placed
+// before a number produced by a signed conversion.  By default, a sign is used
+// only for negative numbers.  A + overrides a space if both are used.
+// 	SPACE = 0x10,					// (a space) A blank should be left before
+// a positive number (or empty string) produced by a signed conversion.
+// 	APOSTROPHE = 0x20,				// For decimal conversion
+// (i, d, u, f, F, g, G) the output is to be grouped with thousands' grouping
+// characters if the locale information indicates any.
+// 	UPPERCASE_I = 0x40,				// ignored for now
+// 	PERIOD = 0x80,					//
+// 	FLAGB = 0x100,					//
+// 	FLAGC = 0x200,					//
+// 	FLAG1 = 0x400,					//
+// 	FLAG2 = 0x800,					//
+// 	FLAG3 = 0x1000,					//
+// 	FLAG4 = 0x2000,					//
+// 	FLAG5 = 0x4000,					//
+// 	FLAG6 = 0x8000,					//
+// }	t_print_flag;
 
 //    Field width
 //        An optional decimal digit string (with nonzero first digit)
@@ -86,78 +126,138 @@ typedef enum e_print_flag
 //        or the maximum number of characters to be printed from a string
 //        for s and S conversions.
 
+// typedef enum e_print_type_flag
+// {
+// 	LOWERCASE_HH = 0x1,				// A following integer conversion
+//									// corresponds to a signed char or
+//									// unsigned char argument,
+// 	LOWERCASE_H = 0x2,				// A following integer conversion
+//									// corresponds to a short or 
+//									// unsigned short argument
+// 	LOWERCASE_L = 0x4,				// A following integer conversion
+//									// corresponds to a long or
+//									// unsigned long argument
+// 	LOWERCASE_LL = 0x8,				// A following integer conversion
+//									// corresponds to a long long or
+//									// unsigned long long argument,
+// 	UPPERCASE_L = 0x10,				// ignored for now A following
+//									//a, A, e, E, f, F, g, or G conversion 
+//									// corresponds to a long double argument. 
+//									// (C99 allows %LF, but SUSv2 does not.)
+// 	LLL = 0x18,						//L or ll
+// 	LOWERCASE_Z = 0x20,				// A following integer conversion
+//									// corresponds to a size_t or
+//									// ssize_t argument
+// 	LOWERCASE_J = 0x40,				// ignored for now  A following integer
+//									//conversion corresponds to an intmax_t or
+//									//uintmax_t argument,
+// 	LOWERCASE_T = 0x80,				// ignored for now A following integer
+//									//conversion corresponds to a ptrdiff_t
+//									//argument,
+// 	LENGTH_MODIFIER = 0xFF,			// bit mask to see if any
+//									// length modification takes place
+// 	LOWERCASE_I = 0x100,			//integer
+// 	LOWERCASE_D = 0x200,			//integer, decimal
+// 	SIGNED_INT = 0x300,				//integer (i, d)
+// 	LOWERCASE_O = 0x400,			//octal
+// 	LOWERCASE_U = 0x800,			//unsigned
+// 	LOWERCASE_X = 0x1000,			//hexadecimal
+// 	UPPERCASE_X = 0x2000,			//HEXADECIMAL
+// 	CONVERSION_UNSIGNED = 0x3C00,	//unsigned int (ouxX)
+// 	CONVERSION_INT = 0x3F00,		// "integer conversion"
+//									// stands for d, i, o, u, x, or X
+// 	LOWERCASE_E = 0x4000,			//
+// 	UPPERCASE_E = 0x8000,			//
+// 	LOWERCASE_F = 0x10000,			//
+// 	UPPERCASE_F = 0x20000,			//
+// 	LOWERCASE_G = 0x40000,			//
+// 	UPPERCASE_G = 0x80000,			//
+// 	LOWERCASE_A = 0x100000,			//
+// 	UPPERCASE_A = 0x200000,			//
+// 	CONVERSION_FLOAT = 0x3FC00,		// a, A, e, E, f, F, g, or G
+// 	LOWERCASE_C = 0x400000,			//char
+// 	LOWERCASE_S = 0x800000,			//string
+// 	LOWERCASE_P = 0x1000000,		//pointer
+// 	UPPERCASE_C = 0x2000000,		//colours and formating
+// 	LOWERCASE_B = 0x4000000,		//binary unsigned int
+									//(maybe change to signed base?)
+// 	UPPERCASE_B = 0x8000000,		//bases unsigned int
+// 	UPPERCASE_P = 0x10000000,		//dunno?
+// 	PERCENTAGE = 0x20000000			// percentage
+// }	t_type_flag;
+
 typedef enum e_print_type_flag
 {
-	LOWERCASE_HH = 0x1,				// A following integer conversion corresponds to a signed char or unsigned char argument,
-	LOWERCASE_H = 0x2,				// A following integer conversion corresponds to a short or unsigned short argument
-	LOWERCASE_L = 0x4,				// A following integer conversion corresponds to a long or unsigned long argument
-	LOWERCASE_LL = 0x8,				// A following integer conversion corresponds to a long long or unsigned long long argument,
-	UPPERCASE_L = 0x10,				// ignored for now A following a, A, e, E, f, F, g, or G conversion corresponds to a long double argument.  (C99 allows %LF, but SUSv2 does not.)
-	LLL = 0x18,						//L or ll
-	LOWERCASE_Z = 0x20,				// A following integer conversion corresponds to a size_t or ssize_t argument
-	LOWERCASE_J = 0x40,				// ignored for now  A following integer conversion corresponds to an intmax_t or uintmax_t argument,
-	LOWERCASE_T = 0x80,				// ignored for now A following integer conversion corresponds to a ptrdiff_t argument,
-	LENGTH_MODIFIER = 0xFF,			// bit mask to see if any length modification takes place
-	LOWERCASE_I = 0x100,			//integer
-	LOWERCASE_D = 0x200,			//integer, decimal
-	SIGNED_INT = 0x300,				//integer (i, d)
-	LOWERCASE_O = 0x400,			//octal
-	LOWERCASE_U = 0x800,			//unsigned
-	LOWERCASE_X = 0x1000,			//hexadecimal
-	UPPERCASE_X = 0x2000,			//HEXADECIMAL
-	CONVERSION_UNSIGNED = 0x3C00,	//unsigned int (ouxX)
-	CONVERSION_INT = 0x3F00,		// "integer conversion" stands for d, i, o, u, x, or X
-	LOWERCASE_E = 0x4000,			//
-	UPPERCASE_E = 0x8000,			//
-	LOWERCASE_F = 0x10000,			//
-	UPPERCASE_F = 0x20000,			//
-	LOWERCASE_G = 0x40000,			//
-	UPPERCASE_G = 0x80000,			//
-	LOWERCASE_A = 0x100000,			//
-	UPPERCASE_A = 0x200000,			//
-	CONVERSION_FLOAT = 0x3FC00,		// a, A, e, E, f, F, g, or G
-	LOWERCASE_C = 0x400000,			//char
-	LOWERCASE_S = 0x800000,			//string
-	LOWERCASE_P = 0x1000000,		//pointer
-	UPPERCASE_C = 0x2000000,		//colours and formating
-	LOWERCASE_B = 0x4000000,		//binary unsigned int (maybe change to signed base?)
-	UPPERCASE_B = 0x8000000,		//bases unsigned int
-	UPPERCASE_P = 0x10000000,		//dunno?
-	PERCENTAGE = 0x20000000			// percentage
+	LOWERCASE_HH = 0x1,
+	LOWERCASE_H = 0x2,
+	LOWERCASE_L = 0x4,
+	LOWERCASE_LL = 0x8,
+	UPPERCASE_L = 0x10,
+	LLL = 0x18,
+	LOWERCASE_Z = 0x20,
+	LOWERCASE_J = 0x40,
+	LOWERCASE_T = 0x80,
+	LENGTH_MODIFIER = 0xFF,
+	LOWERCASE_I = 0x100,
+	LOWERCASE_D = 0x200,
+	SIGNED_INT = 0x300,
+	LOWERCASE_O = 0x400,
+	LOWERCASE_U = 0x800,
+	LOWERCASE_X = 0x1000,
+	UPPERCASE_X = 0x2000,
+	CONVERSION_UNSIGNED = 0x3C00,
+	CONVERSION_INT = 0x3F00,
+	LOWERCASE_E = 0x4000,
+	UPPERCASE_E = 0x8000,
+	LOWERCASE_F = 0x10000,
+	UPPERCASE_F = 0x20000,
+	LOWERCASE_G = 0x40000,
+	UPPERCASE_G = 0x80000,
+	LOWERCASE_A = 0x100000,
+	UPPERCASE_A = 0x200000,
+	CONVERSION_FLOAT = 0x3FC00,
+	LOWERCASE_C = 0x400000,
+	LOWERCASE_S = 0x800000,
+	LOWERCASE_P = 0x1000000,
+	UPPERCASE_C = 0x2000000,
+	LOWERCASE_B = 0x4000000,
+	UPPERCASE_B = 0x8000000,
+	UPPERCASE_P = 0x10000000,
+	PERCENTAGE = 0x20000000
 }	t_type_flag;
 
 typedef enum e_print_value_flag
 {
-	SIGNED_CHAR = 0x1,			//
-	UNSIGNED_CHAR = 0x2,		//
-	SIGNED_SHORT = 0x4,			//
-	UNSIGNED_SHORT = 0x8,		//
-	INT = 0x10,					//
-	UNSIGNED_INT = 0x20,		//
-	LONG = 0x40,				//
-	UNSIGNED_LONG = 0x80,		//
-	LONG_LONG = 0x100,			//
-	UNSIGNED_LONG_LONG = 0x200,	//
-	DOUBLE = 0x400,				//
-	LONG_DOUBLE = 0x800,		//
-	SIZE_T = 0x1000,			//
-	CHAR_POINTER = 0x2000,		//
-	VOID_POINTER = 0x4000,		//
+	SIGNED_CHAR = 0x1,
+	UNSIGNED_CHAR = 0x2,
+	SIGNED_SHORT = 0x4,
+	UNSIGNED_SHORT = 0x8,
+	INT = 0x10,
+	UNSIGNED_INT = 0x20,
+	LONG = 0x40,
+	UNSIGNED_LONG = 0x80,
+	LONG_LONG = 0x100,
+	UNSIGNED_LONG_LONG = 0x200,
+	DOUBLE = 0x400,
+	LONG_DOUBLE = 0x800,
+	SIZE_T = 0x1000,
+	CHAR_POINTER = 0x2000,
+	VOID_POINTER = 0x4000,
 }	t_value_flag;
 
 typedef union u_value
 {
-	signed char			sc;	//not needed promoted to int
-	unsigned char		uc;	//not needed promoted to int
-	signed short		ss;	//not needed promoted to int
-	unsigned short		us;	//not needed promoted to int
+	signed char			sc;
+	unsigned char		uc;
+	signed short		ss;
+	unsigned short		us;
 	int					i;
 	unsigned int		ui;
 	long				l;
 	unsigned long		ul;
 	long long			ll;
 	unsigned long long	ull;
-	float				f;	//not needed promoted to double
+	float				f;
 	double				d;
 	long double			ld;
 	size_t				st;
@@ -176,11 +276,12 @@ typedef struct s_list
 
 // FT_PRINTF structure
 
+// type: 0 - just text, 1 - %[stuff]
 typedef struct s_pf_info
 {
 	const char		*orig;
 	char			*out;
-	int				type;		//0 - just text, 1 - %[stuff]
+	int				type;
 	int				outlen;
 	int				flag;
 	int				type_flag;
@@ -338,7 +439,8 @@ char			*ft_strjoin_freeleft(char *s1, char const *s2);
 char			*ft_strjoin_freeright(char const *s1, char *s2);
 char			*ft_strjoin_freeboth(char *s1, char *s2);
 void			ft_clear_pf_data(void *vdata);
-char			*ft_ultoa_base(unsigned long long n, char *basestr, int baselen);
+char			*ft_ultoa_base(unsigned long long n,
+					char *basestr, int baselen);
 char			*ft_ltoa_base(long long n, char *basestr, int baselen);
 char			*ft_string_copy_n(char const *str, int n);
 char			*ft_print_lst_to_string(t_list *lst);
