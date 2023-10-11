@@ -6,7 +6,7 @@
 #    By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/14 13:43:18 by okraus            #+#    #+#              #
-#    Updated: 2023/10/08 13:38:41 by okraus           ###   ########.fr        #
+#    Updated: 2023/10/11 15:48:01 by okraus           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,7 +20,7 @@ PERC		=	$(shell expr $(HIT_COUNT3) / $(HIT_TOTAL) | bc)
 ECHO		=	echo "[`expr ${HIT_COUNT1} '*' 100 / ${HIT_TOTAL}`%]"
 endif
 
-NAME		=	libft.a
+NAME		=	libftprintf.a
 INCS		=	header/libft.h
 LIBC		=	ar rcs
 CC 			=	cc

@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:49:23 by okraus            #+#    #+#             */
-/*   Updated: 2023/06/24 16:46:21 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/11 17:38:37 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,14 @@ int	main(void)
 	// fp = ft_printf("%8p-%8s\n", NULL, s2);
 	// printf ("pf = %d, fp = %d\n", pf, fp);
 	
-	pf = printf("%i|%i|%i\n", -2147483648, 0, 0x7FFFFFFF);
-	fp = ft_printf("%i|%i|%i\n", -2147483648, 0, 0x7FFFFFFF);
+	pf = printf("%i|%i|%i\n", -2147483647 -1, 0, 0x7FFFFFFF);
+	fp = ft_printf("%i|%i|%i\n", -2147483647 -1, 0, 0x7FFFFFFF);
 	printf ("pf = %d, fp = %d\n", pf, fp);
 	pf = printf("%p-%s\n", NULL, s2);
 	fp = ft_printf("%p-%s\n", NULL, s2);
 	printf ("pf = %d, fp = %d\n", pf, fp);
-	pf = printf("printf : a%pbc%%de%cfg%uhij%sk%dlm%inop%Xq%xr\n", (void *)&c, d, u, s, num, 0, u, u);
-	fp = ft_printf("ftprint: a%pbc%%de%cfg%uhij%sk%dlm%inop%Xq%xr\n", (void *)&c, d, u, s, num, 0, u, u);
+	pf = printf("printf : a%pbc%%de%cfg%uh%cij%sk%dlm%inop%Xq%xr\n", (void *)&c, d, u, '\0', s, num, 0, u, u);
+	fp = ft_printf("ftprint: a%pbc%%de%cfg%uh%cij%sk%dlm%inop%Xq%xr\n", (void *)&c, d, u, '\0', s, num, 0, u, u);
 	printf ("pf = %d, fp = %d\n", pf, fp);
 	return (0);
 }

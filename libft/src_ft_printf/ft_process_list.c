@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 11:51:51 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/10 15:45:52 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/11 15:58:16 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,7 +138,7 @@ int	ft_process_prc(t_pf_info *data)
 
 int	ft_process_prcstr(t_pf_info *data)
 {
-	if (!data->value.s && data->precision >= 6U)
+	if (!data->value.s && (data->precision >= 6U || !(data->flag & PERIOD)))
 		data->out = ft_strdup("(null)");
 	else if (!data->value.s)
 		data->out = ft_strdup("");
@@ -155,17 +155,60 @@ int	ft_process_prcstr(t_pf_info *data)
 	return (0);
 }
 
+int	ft_padleft_char(int i, char c, char **s)
+{
+	char	*str;
+
+	str = malloc(i + 1);
+	if (!str)
+		return (1);
+	str[i] = 0;
+	str = ft_memset(str, c, i);
+	str[i] = 0;
+	str[i - 1] = *s[0];
+	free(*s);
+	*s = str;
+	return (0);
+}
+
+int	ft_padright_char(int i, char c, char **s)
+{
+	char	*str;
+
+	str = malloc(i + 1);
+	if (!str)
+		return (1);
+	str[i] = 0;
+	str = ft_memset(str, c, i);
+	str[i] = 0;
+	str[0] = *s[0];
+	free(*s);
+	*s = str;
+	return (0);
+}
+
 int	ft_process_prcchr(t_pf_info *data)
 {
-	char s[2];
+	char	s[2];
+	int		err;
 
-	s[0] = data->value.i;
+	s[0] = (char)data->value.i;
 	s[1] = 0;
+	err = 0;
 	data->out = ft_strdup(s);
 	if (!data->out)
 		return (1);
-	data->outlen = ft_strlen(data->out);
-	return (0);
+	if (data->field_width > 1)
+	{
+		if (data->flag & MINUS)
+			err = ft_padright_char(data->field_width, ' ', &data->out);
+		else
+			err = ft_padleft_char(data->field_width, ' ', &data->out);
+		data->outlen = data->field_width;
+	}
+	else
+		data->outlen = 1;
+	return (err);
 }
 
 int	ft_unsigned_flags(t_pf_info *data)

@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/10 15:29:50 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/11 16:06:32 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -443,7 +443,7 @@ char			*ft_ultoa_base(unsigned long long n,
 					char *basestr, int baselen);
 char			*ft_ltoa_base(long long n, char *basestr, int baselen);
 char			*ft_string_copy_n(char const *str, int n);
-char			*ft_print_lst_to_string(t_list *lst);
+char			*ft_print_lst_to_string(t_list *lst, int *len);
 // void			ft_putstuff(va_list arg, const char *s, int *q, t_output *t);
 // void			ft_writestuff(int fd, const char *s, int *q);
 // int				ft_pf_putchar_fd(char c, int fd, t_output *t);

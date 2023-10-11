@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 14:59:58 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/10 15:50:30 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/11 16:06:47 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -447,7 +447,7 @@ int	ft_init_list(va_list arg, t_list *lst)
 	return (0);
 }
 
-char	*ft_get_print_string(va_list arg, const char *s)
+char	*ft_get_print_string(va_list arg, const char *s, int *len)
 {
 	char	*str;
 	t_list	*lst;
@@ -464,7 +464,7 @@ char	*ft_get_print_string(va_list arg, const char *s)
 		free(lst); //should free the list properly.
 		lst = NULL;
 	}
-	str = ft_print_lst_to_string(lst);
+	str = ft_print_lst_to_string(lst, len);
 	// if (lst)
 	// 	ft_print_list(lst); 
 	if (lst)
@@ -476,14 +476,16 @@ int	ft_printf(const char *s, ...)
 {
 	int		value;
 	char	*str;
+	int		len;
 	va_list	arg;
 
+	len = 0;
 	va_start(arg, s);
-	str = ft_get_print_string(arg, s);
+	str = ft_get_print_string(arg, s, &len);
 	va_end(arg);
 	if (str)
 	{
-		value = write(1, str, ft_strlen(str));
+		value = write(1, str, len);
 		free(str);
 	}
 	else
