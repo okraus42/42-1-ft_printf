@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 14:59:58 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/11 16:06:47 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/12 15:32:50 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -456,12 +456,12 @@ char	*ft_get_print_string(va_list arg, const char *s, int *len)
 	str = NULL;
 	if (ft_init_list(arg, lst))
 	{
-		free(lst); //should free the list properly.
+		ft_lstclear(&lst, ft_clear_pf_data);
 		lst = NULL;
 	}
 	if (ft_process_list(lst))
 	{
-		free(lst); //should free the list properly.
+		ft_lstclear(&lst, ft_clear_pf_data);
 		lst = NULL;
 	}
 	str = ft_print_lst_to_string(lst, len);
