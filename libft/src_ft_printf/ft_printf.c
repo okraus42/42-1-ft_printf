@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 14:59:58 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/12 15:32:50 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/13 15:40:48 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,34 +88,29 @@ t_list	*ft_process_input_string(const char *s)
 	return (head);
 }
 
-void	ft_init_flags_helper(int flag, int *err, t_pf_info *data)
+void	ft_init_flags_helper(int flag, t_pf_info *data)
 {
-	if (data->flag & flag)
-			*err = 1;
-	else
-		data->flag |= flag;
-	if (*err)	//REMOVE LATER
-		printf("ERR FLAGS: %s\n", data->orig); //REMOVE LATER
+	data->flag |= flag;
 }
 
-void	ft_init_flags(int *i, int *err, t_pf_info *data)
+void	ft_init_flags(int *i, t_pf_info *data)
 {
 	while (data->orig[*i] && ft_strchr(F_FLAGS, data->orig[*i]))
 	{
 		if (data->orig[*i] == '0')
-			ft_init_flags_helper(ZERO, err, data);
+			ft_init_flags_helper(ZERO, data);
 		else if (data->orig[*i] == '#')
-			ft_init_flags_helper(HASHTAG, err, data);
+			ft_init_flags_helper(HASHTAG, data);
 		else if (data->orig[*i] == '-')
-			ft_init_flags_helper(MINUS, err, data);
+			ft_init_flags_helper(MINUS, data);
 		else if (data->orig[*i] == '+')
-			ft_init_flags_helper(PLUS, err, data);
+			ft_init_flags_helper(PLUS, data);
 		else if (data->orig[*i] == ' ')
-			ft_init_flags_helper(SPACE, err, data);
+			ft_init_flags_helper(SPACE, data);
 		else if (data->orig[*i] == '\'')
-			ft_init_flags_helper(APOSTROPHE, err, data);
+			ft_init_flags_helper(APOSTROPHE, data);
 		else if (data->orig[*i] == 'I')
-			ft_init_flags_helper(UPPERCASE_I, err, data);
+			ft_init_flags_helper(UPPERCASE_I, data);
 		++(*i);
 	}
 }
@@ -421,12 +416,12 @@ int	ft_init_list(va_list arg, t_list *lst)
 		if (data->type)
 		{
 			if (data->orig[i] && ft_strchr(F_FLAGS, data->orig[i]))
-				ft_init_flags(&i, &err, data);
+				ft_init_flags(&i, data);
 			if (data->orig[i] && ft_strchr(F_NUMBERS, data->orig[i]))
 				ft_init_field_width(&i, &err, data, arg);
-			if (data->orig[i] == '.' && ft_strchr(F_NUMBERS, data->orig[i + 1]))
+			if (data->orig[i] == '.')
 			{
-				++i;
+				i++;
 				ft_init_precision(&i, &err, data, arg);
 			}
 			if (data->orig[i] && ft_strchr(F_MODIFIER, data->orig[i]))

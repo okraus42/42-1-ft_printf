@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 11:51:51 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/11 15:58:16 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/13 16:07:05 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,8 @@ int	ft_padright(int i, char c, char **s)
 int	ft_signed_flags(t_pf_info *data)
 {
 	if (ft_strlen(data->out) == data->field_width
-		&& data->flag & ZERO && data->out[0] == '0')
+		&& data->flag & ZERO && data->out[0] == '0'
+		&& data->field_width != data->precision)
 	{
 		if (data->value.ll < 0)
 			data->out[0] = '-';
@@ -111,7 +112,7 @@ int	ft_process_prcint(t_pf_info *data)
 		if(!data->out)
 			return (1);
 	}
-	if (data->precision || (data->flag & ZERO && !(data->flag & 0x84)))
+	if (data->flag & PERIOD || (data->flag & ZERO && !(data->flag & 0x84)))
 	{
 		i = data->precision - ft_strlen(data->out);
 		if (!(data->flag & PERIOD))
@@ -119,6 +120,11 @@ int	ft_process_prcint(t_pf_info *data)
 		if (i > 0)
 			if (ft_padleft(i, '0', &data->out))
 				return (1);
+		if (data->flag & PERIOD && !data->precision && !data->value.ull)
+		{
+			free(data->out);
+			data->out = ft_strdup("");
+		}
 	}
 	if (ft_signed_flags(data))
 		return (1);
@@ -237,7 +243,7 @@ int	ft_process_prcu(t_pf_info *data)
 	data->out = ft_ultoa_base(data->value.ull, BASE_CAP, 10);
 	if(!data->out)
 		return (1);
-	if (data->precision || (data->flag & ZERO && !(data->flag & 0x84)))
+	if (data->flag & PERIOD || (data->flag & ZERO && !(data->flag & 0x84)))
 	{
 		i = data->precision - ft_strlen(data->out);
 		if (!(data->flag & PERIOD))
@@ -245,8 +251,13 @@ int	ft_process_prcu(t_pf_info *data)
 		if (i > 0)
 			if (ft_padleft(i, '0', &data->out))
 				return (1);
+		if (data->flag & PERIOD && !data->precision && !data->value.ull)
+		{
+			free(data->out);
+			data->out = ft_strdup("");
+		}
 	}
-	if (ft_unsigned_flags(data))
+	if (data->value.ull && ft_unsigned_flags(data))
 		return (1);
 	if (data->field_width > ft_strlen(data->out))
 		if (ft_field_width(data))
@@ -263,7 +274,7 @@ int	ft_process_prco(t_pf_info *data)
 	data->out = ft_ultoa_base(data->value.ull, BASE_CAP, 8);
 	if(!data->out)
 		return (1);
-	if (data->precision || (data->flag & ZERO && !(data->flag & 0x84))) 
+	if (data->flag & PERIOD || (data->flag & ZERO && !(data->flag & 0x84))) 
 	{
 		i = data->precision - ft_strlen(data->out);
 		if (!(data->flag & PERIOD))
@@ -271,8 +282,13 @@ int	ft_process_prco(t_pf_info *data)
 		if (i > 0)
 			if (ft_padleft(i, '0', &data->out))
 				return (1);
+		if (data->flag & PERIOD && !data->precision && !data->value.ull)
+		{
+			free(data->out);
+			data->out = ft_strdup("");
+		}
 	}
-	if (ft_unsigned_flags(data))
+	if (data->value.ull && ft_unsigned_flags(data))
 		return (1);
 	if (data->field_width > ft_strlen(data->out))
 		if (ft_field_width(data))
@@ -289,7 +305,7 @@ int	ft_process_prcx(t_pf_info *data)
 	data->out = ft_ultoa_base(data->value.ull, BASE_SML, 16);
 	if(!data->out)
 		return (1);
-	if (data->precision || (data->flag & ZERO && !(data->flag & 0x84)))
+	if (data->flag & PERIOD || (data->flag & ZERO && !(data->flag & 0x84)))
 	{
 		i = data->precision - ft_strlen(data->out);
 		if (!(data->flag & PERIOD))
@@ -297,8 +313,13 @@ int	ft_process_prcx(t_pf_info *data)
 		if (i > 0)
 			if (ft_padleft(i, '0', &data->out))
 				return (1);
+		if (data->flag & PERIOD && !data->precision && !data->value.ull)
+		{
+			free(data->out);
+			data->out = ft_strdup("");
+		}
 	}
-	if (ft_unsigned_flags(data))
+	if (data->value.ull && ft_unsigned_flags(data))
 		return (1);
 	if (data->field_width > ft_strlen(data->out))
 		if (ft_field_width(data))
@@ -315,7 +336,7 @@ int	ft_process_prcx2(t_pf_info *data)
 	data->out = ft_ultoa_base(data->value.ull, BASE_CAP, 16);
 	if(!data->out)
 		return (1);
-	if (data->precision || (data->flag & ZERO && !(data->flag & 0x84)))
+	if (data->flag & PERIOD || (data->flag & ZERO && !(data->flag & 0x84)))
 	{
 		i = data->precision - ft_strlen(data->out);
 		if (!(data->flag & PERIOD))
@@ -323,8 +344,13 @@ int	ft_process_prcx2(t_pf_info *data)
 		if (i > 0)
 			if (ft_padleft(i, '0', &data->out))
 				return (1);
+		if (data->flag & PERIOD && !data->precision && !data->value.ull)
+		{
+			free(data->out);
+			data->out = ft_strdup("");
+		}
 	}
-	if (ft_unsigned_flags(data))
+	if (data->value.ull && ft_unsigned_flags(data))
 		return (1);
 	if (data->field_width > ft_strlen(data->out))
 		if (ft_field_width(data))
