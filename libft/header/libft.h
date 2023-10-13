@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/11 16:06:32 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/13 17:57:49 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,6 +444,56 @@ char			*ft_ultoa_base(unsigned long long n,
 char			*ft_ltoa_base(long long n, char *basestr, int baselen);
 char			*ft_string_copy_n(char const *str, int n);
 char			*ft_print_lst_to_string(t_list *lst, int *len);
+
+//	ft_utils_pad.c
+int				ft_padright_char(int i, char c, char **s);
+int				ft_padleft_char(int i, char c, char **s);
+int				ft_padright(int i, char c, char **s);
+int				ft_padleft(int i, char c, char **s);
+
+//	ft_utils_flags_prec_width.c
+int				ft_signed_flags(t_pf_info *data);
+int				ft_unsigned_flags(t_pf_info *data);
+int				ft_field_width(t_pf_info *data);
+int				ft_process_precision(t_pf_info *data);
+
+//	ft_process_unsigned.c 
+int				ft_process_prcu(t_pf_info *data);
+int				ft_process_prco(t_pf_info *data);
+int				ft_process_prcx(t_pf_info *data);
+int				ft_process_prcx2(t_pf_info *data);
+
+//	ft_process_other.c
+int				ft_process_prcint(t_pf_info *data);
+int				ft_process_prc(t_pf_info *data);
+int				ft_process_prcchr(t_pf_info *data);
+int				ft_process_prcstr(t_pf_info *data);
+int				ft_process_prcptr(t_pf_info *data);
+
+//	ft_init1.c
+t_list			*ft_process_input_string(const char *s);
+void			ft_init_flags(int *i, t_pf_info *data);
+void			ft_init_field_width(int *i, int *err,
+					t_pf_info *data, va_list arg);
+
+//	ft_init2.c
+void			ft_init_precision(int *i, int *err,
+					t_pf_info *data, va_list arg);
+void			ft_init_modifiers(int *i, t_pf_info *data);
+int				ft_get_int_value(t_pf_info *data, va_list arg);
+int				ft_init_int(char c, t_pf_info *data, va_list arg);
+
+//	ft_init3.c
+int				ft_get_unsigned_int_value(t_pf_info *data, va_list arg);
+int				ft_init_unsigned(char c, t_pf_info *data, va_list arg);
+int				ft_get_double_value(t_pf_info *data, va_list arg);
+int				ft_init_double(char c, t_pf_info *data, va_list arg);
+
+//	ft_init4.c
+int				ft_init_pointer(char c, t_pf_info *data, va_list arg);
+int				ft_init_conversion(int i, t_pf_info *data, va_list arg);
+int				ft_init_list(va_list arg, t_list *lst);
+
 // void			ft_putstuff(va_list arg, const char *s, int *q, t_output *t);
 // void			ft_writestuff(int fd, const char *s, int *q);
 // int				ft_pf_putchar_fd(char c, int fd, t_output *t);

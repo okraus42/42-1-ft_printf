@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 16:36:53 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/10 15:43:20 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/13 17:29:51 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,13 +40,11 @@ char	*ft_ltoa_base(long long n, char *basestr, int baselen)
 	if (str == NULL)
 		return (NULL);
 	str[i + 1] = 0;
+	str[0] = '-';
 	if (n == 0)
 		str[i] = basestr[0];
 	if (n < 0)
-	{
-		str[0] = '-';
 		m = -n;
-	}
 	else
 		m = n;
 	while (m != 0)
@@ -95,127 +93,6 @@ char	*ft_ultoa_base(unsigned long long n, char *basestr, int baselen)
 	}
 	return (str);
 }
-
-char	*ft_string_copy_n(char const *str, int n)
-{
-	int		i;
-	int		len;
-	char	*dest;
-
-	i = 0;
-	len = ft_strlen(str);
-	if (n < len)
-		len = n;
-	if (!str)
-		return (NULL);
-	dest = malloc(sizeof(char) * (len + 1));
-	if (!dest)
-		return (NULL);
-	while (i < len)
-	{
-		dest[i] = str[i];
-		i++;
-	}
-	dest[i] = 0;
-	return (dest);
-}
-
-char	*ft_strjoin_freeright(char const *s1, char *s2)
-{
-	size_t	i;
-	size_t	j;
-	char	*s3;
-
-	j = ft_strlen(s1);
-	i = ft_strlen(s2);
-	s3 = (char *)malloc((i + j + 1) * sizeof(char));
-	if (s3 == NULL)
-		return (free(s2), NULL);
-	i = 0;
-	while (s1[i])
-	{
-		s3[i] = s1[i];
-		i++;
-	}
-	i = 0;
-	while (s2[i])
-	{
-		s3[i + j] = s2[i];
-		i++;
-	}
-	s3[i + j] = 0;
-	return (free(s2), s3);
-}
-
-char	*ft_strjoin_freeleft(char *s1, char const *s2)
-{
-	size_t	i;
-	size_t	j;
-	char	*s3;
-
-	j = ft_strlen(s1);
-	i = ft_strlen(s2);
-	s3 = (char *)malloc((i + j + 1) * sizeof(char));
-	if (s3 == NULL)
-		return (free(s1), NULL);
-	i = 0;
-	while (s1[i])
-	{
-		s3[i] = s1[i];
-		i++;
-	}
-	i = 0;
-	while (s2[i])
-	{
-		s3[i + j] = s2[i];
-		i++;
-	}
-	s3[i + j] = 0;
-	return (free(s1), s3);
-}
-
-char	*ft_strjoin_freeboth(char *s1, char *s2)
-{
-	size_t	i;
-	size_t	j;
-	char	*s3;
-
-	j = ft_strlen(s1);
-	i = ft_strlen(s2);
-	s3 = malloc((i + j + 1) * sizeof(char));
-	if (s3 == NULL)
-		return (free(s1), free(s2), NULL);
-	i = 0;
-	while (s1[i])
-	{
-		s3[i] = s1[i];
-		i++;
-	}
-	i = 0;
-	while (s2[i])
-	{
-		s3[i + j] = s2[i];
-		i++;
-	}
-	s3[i + j] = 0;
-	return (free(s1), free(s2), s3);
-}
-
-// void	ft_lstclear(t_list **lst, void (*del)(void *))
-// {
-// 	t_list	*tmp;
-
-// 	if (lst)
-// 	{
-// 		while (*lst)
-// 		{
-// 			tmp = (*lst)->next;
-// 			ft_lstdelone(*lst, del);
-// 			(*lst) = tmp;
-// 		}
-// 	}
-// 	lst = NULL;
-// }
 
 void	ft_clear_pf_data(void *vdata)
 {
