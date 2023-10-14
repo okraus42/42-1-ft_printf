@@ -6,7 +6,7 @@
 #    By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/01/14 13:43:18 by okraus            #+#    #+#              #
-#    Updated: 2023/10/13 17:52:01 by okraus           ###   ########.fr        #
+#    Updated: 2023/10/14 14:23:04 by okraus           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -132,6 +132,7 @@ SRC_PF		= 	ft_printf \
 				ft_init3 \
 				ft_init4 \
 				ft_process_list \
+				ft_process_colours \
 				ft_process_unsigned \
 				ft_process_other \
 				ft_join_strings \

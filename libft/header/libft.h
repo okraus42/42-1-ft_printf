@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/14 11:10:02 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/14 14:28:12 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -285,6 +285,9 @@ typedef struct s_pf_info
 {
 	const char		*orig;
 	char			*out;
+	char			*red;
+	char			*green;
+	char			*blue;
 	int				type;
 	int				outlen;
 	int				flag;
@@ -475,6 +478,9 @@ int				ft_process_prc(t_pf_info *data);
 int				ft_process_prcchr(t_pf_info *data);
 int				ft_process_prcstr(t_pf_info *data);
 int				ft_process_prcptr(t_pf_info *data);
+
+//	ft_process_colours.c 
+int				ft_process_prcclr(t_pf_info *data);
 
 //	ft_init1.c
 t_list			*ft_process_input_string(const char *s);
