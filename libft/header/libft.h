@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/13 17:57:49 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/14 11:10:02 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ typedef enum e_print_flag
 	APOSTROPHE = 0x20,
 	UPPERCASE_I = 0x40,
 	PERIOD = 0x80,
-	FLAGB = 0x100,
+	CIRCUMFLEX = 0x100,
 	FLAGC = 0x200,
 	FLAG1 = 0x400,
 	FLAG2 = 0x800,
@@ -87,7 +87,7 @@ typedef enum e_print_flag
 // characters if the locale information indicates any.
 // 	UPPERCASE_I = 0x40,				// ignored for now
 // 	PERIOD = 0x80,					//
-// 	FLAGB = 0x100,					//
+// 	CIRCUMFLEX = 0x100,				// for base conversion
 // 	FLAGC = 0x200,					//
 // 	FLAG1 = 0x400,					//
 // 	FLAG2 = 0x800,					//
@@ -125,6 +125,10 @@ typedef enum e_print_flag
 //        the maximum number of significant digits for g and G conversions,
 //        or the maximum number of characters to be printed from a string
 //        for s and S conversions.
+
+//		Base
+//		for base conversions b and B, follows a circumflex('^')
+//		can be in the range of 2-36, by default, 2 is selected
 
 // typedef enum e_print_type_flag
 // {
@@ -205,7 +209,7 @@ typedef enum e_print_type_flag
 	LOWERCASE_U = 0x800,
 	LOWERCASE_X = 0x1000,
 	UPPERCASE_X = 0x2000,
-	CONVERSION_UNSIGNED = 0x3C00,
+	CONVERSION_UNSIGNED = 0x8003C00,
 	CONVERSION_INT = 0x3F00,
 	LOWERCASE_E = 0x4000,
 	UPPERCASE_E = 0x8000,
@@ -288,6 +292,7 @@ typedef struct s_pf_info
 	int				value_flag;
 	unsigned int	field_width;
 	unsigned int	precision;
+	unsigned int	baselen;
 	t_value			value;
 }				t_pf_info;
 
@@ -462,6 +467,7 @@ int				ft_process_prcu(t_pf_info *data);
 int				ft_process_prco(t_pf_info *data);
 int				ft_process_prcx(t_pf_info *data);
 int				ft_process_prcx2(t_pf_info *data);
+int				ft_process_prcb2(t_pf_info *data);
 
 //	ft_process_other.c
 int				ft_process_prcint(t_pf_info *data);

@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/01 11:51:02 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/08 15:55:20 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/14 11:20:04 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,14 @@ int	main(void)
 	ft_printf("a%ob%uc%xd%Xe%lxf%#og%10xh%10.5xijkl\n", 42, 42, 42, 42, 9223372036854775808UL, 42, 42, 42);
 	printf("a%ob%uc%xd%Xe%lxf%#og%10xh%10.5xijkl\n", 42, 42, 42, 42, 9223372036854775808UL, 42, 42, 42);
 	
-	ft_printf("%30p %*p %*.*i\n", NULL, 20, &"abcdef", 8, 4, 42);
-	printf("%30p %*p %*.*i\n", NULL, 20, &"abcdef", 8, 4, 42);
+	ft_printf("%30p %*p %*.*i\n", NULL, 20, &"abcdef", 16, 4, 42);
+	printf("%30p %*p %*.*i\n", NULL, 20, &"abcdef", 16, 4, 42);
 
+	ft_printf("%30p %*p %#*.*^*B\n", NULL, 20, &"abcdef", 16, 8, 2, 42);
+	ft_printf("%30p %*p %#*.*B\n", NULL, 20, &"abcdef", 16, 8, 42);
+	int i = 0;
+	while (i++ < 42)
+		ft_printf("%30p %*p %#*.*^*B\n", NULL, 20, &"abcdef", 16, 8, i + 1, i);
 
 	//printf("%lli %s %s\n", -9223372036854775807LL -1LL, ft_ltoa_base(-9223372036854775807LL -1LL, "0123456789abcdef", 10), ft_ultoa_base(0x1234567890fDECBA, "0123456789abcdef", 16));
 	return (0);

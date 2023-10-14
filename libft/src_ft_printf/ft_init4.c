@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 17:48:46 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/13 17:54:13 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/14 11:01:28 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,34 @@ int	ft_init_conversion(int i, t_pf_info *data, va_list arg)
 	return (err);
 }
 
+static void	ft_init_baselen(int *i, int *err, t_pf_info *data, va_list arg)
+{
+	int			n;
+	long long	num;
+
+	data->flag |= CIRCUMFLEX;
+	++(*i);
+	if (data->orig[*i] == '*')
+	{
+		data->baselen = va_arg(arg, int);
+		++(*i);
+	}
+	else
+	{
+		n = 0;
+		num = ft_latoi(&data->orig[*i]);
+		while (ft_isdigit(data->orig[*i]))
+		{
+			++n;
+			++(*i);
+		}
+		if (n > 15 || num > 0xFFFFFFFFLL)
+			*err = 1;
+		else if (num > 0)
+			data->baselen = (unsigned int)num;
+	}
+}
+
 static int	ft_init_list_helper(va_list arg, t_pf_info *data, int *i, int *err)
 {
 	if (data->type)
@@ -73,6 +101,8 @@ static int	ft_init_list_helper(va_list arg, t_pf_info *data, int *i, int *err)
 			++(*i);
 			ft_init_precision(i, err, data, arg);
 		}
+		if (data->orig[*i] == '^')
+			ft_init_baselen(i, err, data, arg);
 		if (data->orig[*i] && ft_strchr(F_MODIFIER, data->orig[*i]))
 			ft_init_modifiers(i, data);
 		if (*err || !ft_strchr(F_TYPES, data->orig[*i]))

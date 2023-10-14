@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/03 11:51:51 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/13 17:41:42 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/14 11:06:49 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int	ft_process_prcuns(t_pf_info *data)
 	else if (data->type_flag & LOWERCASE_X && ft_process_prcx(data))
 		return (1);
 	else if (data->type_flag & UPPERCASE_X && ft_process_prcx2(data))
+		return (1);
+	else if (data->type_flag & UPPERCASE_B && ft_process_prcb2(data))
 		return (1);
 	if (!data->out)
 		return (1);

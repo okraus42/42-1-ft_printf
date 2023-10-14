@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 17:34:41 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/13 17:36:31 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/14 11:12:19 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,13 @@ int	ft_unsigned_flags(t_pf_info *data)
 		}
 		else if (data->type_flag & UPPERCASE_X)
 			data->out = ft_strjoin_freeright("0X", data->out);
+		else if (data->type_flag & UPPERCASE_B)
+		{
+			if (data->baselen == 2)
+				data->out = ft_strjoin_freeright("0b", data->out);
+			else
+				data->out = ft_strjoin_freeright("0B", data->out);
+		}
 		if (!data->out)
 			return (1);
 	}
