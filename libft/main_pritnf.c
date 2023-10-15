@@ -52,5 +52,6 @@ int	main(void)
 	printf("Color \033[2mtest\033[0m\n");
 	printf("Color test\n");
 	ft_printf("FTPRINTF: Color %31.*^*Ctest%C\n", 0xFF0000, 0XFF00);
+	ft_printf("FTPRINTF: Color %31.*^*C%20.14^24LB%C\n", 0xFF0000, 0XFF00, 0xffffffffffULL);
 	return (0);
 }

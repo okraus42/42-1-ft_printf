@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 17:48:39 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/13 17:55:25 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/15 17:45:35 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	ft_init_modifiers(int *i, t_pf_info *data)
 		data->type_flag |= LOWERCASE_H;
 	else if (data->orig[*i] == 'l')
 		data->type_flag |= LOWERCASE_L;
+	else if (data->orig[*i] == 'L')
+		data->type_flag |= UPPERCASE_L;
 	else if (data->orig[*i] == 'z')
 		data->type_flag |= LOWERCASE_Z;
 	else if (data->orig[*i] == 'j')
