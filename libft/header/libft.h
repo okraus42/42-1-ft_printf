@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/15 12:00:03 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/15 13:41:40 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -470,7 +470,6 @@ char			*ft_print_lst_to_string(t_list *lst, int *len);
 
 int				ft_snpf_strncpy(char *str, char *temp, size_t size, int len);
 
-
 //	ft_utils_pad.c
 int				ft_padright_char(int i, char c, char **s);
 int				ft_padleft_char(int i, char c, char **s);
@@ -503,7 +502,6 @@ int				ft_process_prcclr(t_pf_info *data);
 //	ft_init0.c
 char			*ft_get_print_string(va_list arg, const char *s, int *len);
 void			ft_print_list(t_list *lst);
-
 
 //	ft_init1.c
 t_list			*ft_process_input_string(const char *s);

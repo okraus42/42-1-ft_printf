@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 17:29:03 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/15 11:58:08 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/15 13:42:53 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int	ft_snpf_strncpy(char *str, char *temp, size_t size, int len)
 {
 	int	i;
 	int	min;
-	i = 0;
 
+	i = 0;
 	if (size > INT_MAX)
 		return (-1);
 	min = (int)size;
@@ -26,7 +26,7 @@ int	ft_snpf_strncpy(char *str, char *temp, size_t size, int len)
 	while (i < min)
 	{
 		str[i] = temp[i];
-		i++;	
+		i++;
 	}
 	str[i] = '\0';
 	return (i);

@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/09/29 14:59:58 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/15 11:58:01 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/15 13:38:18 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,19 @@ int	ft_dprintf(int fd, const char *s, ...)
 int	ft_sprintf(char *str, const char *s, ...)
 {
 	int		value;
+	char	*temp;
 	int		len;
 	va_list	arg;
 
 	len = 0;
 	va_start(arg, s);
-	str = ft_get_print_string(arg, s, &len);
+	temp = ft_get_print_string(arg, s, &len);
 	va_end(arg);
-	if (str)
-		value = len;
+	if (temp)
+	{
+		value = ft_snpf_strncpy(str, temp, len, len);
+		free(temp);
+	}
 	else
 		value = (-1);
 	return (value);
