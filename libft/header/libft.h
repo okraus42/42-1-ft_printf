@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/14 13:43:29 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/14 14:28:12 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/15 12:00:03 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <unistd.h>
 # include <stdint.h>
 # include <stdarg.h>
+# include <limits.h>
 
 // DEFINITIONS
 // GET_NEXT_LINE definitions
@@ -440,8 +441,22 @@ char			*ft_strjoin_gnl(char *s1, char *s2);
 
 // FT_PRINTF prototypes
 
-//int				ft_printf_fd(int fd, const char *s, ...);
+//	ft_printf.c
 int				ft_printf(const char *s, ...);
+//int			ft_fprintf(FILE *restrict stream, const char *s, ...);
+int				ft_dprintf(int fd, const char *s, ...);
+int				ft_sprintf(char *str, const char *s, ...);
+int				ft_snprintf(char *str, size_t size, const char *s, ...);
+
+//	ft_vprintf.c
+int				ft_vprintf(const char *s, va_list arg);
+//int			ft_vfprintf(FILE *restrict stream, const char *s, va_list arg);
+int				ft_vdprintf(int fd, const char *s, va_list arg);
+int				ft_vsprintf(char *str, const char *s, va_list arg);
+int				ft_vsnprintf(char *str,
+					size_t size, const char *s, va_list arg);
+
+//ft_utils?
 int				ft_process_list(t_list *lst);
 char			*ft_strjoin_freeleft(char *s1, char const *s2);
 char			*ft_strjoin_freeright(char const *s1, char *s2);
@@ -452,6 +467,9 @@ char			*ft_ultoa_base(unsigned long long n,
 char			*ft_ltoa_base(long long n, char *basestr, int baselen);
 char			*ft_string_copy_n(char const *str, int n);
 char			*ft_print_lst_to_string(t_list *lst, int *len);
+
+int				ft_snpf_strncpy(char *str, char *temp, size_t size, int len);
+
 
 //	ft_utils_pad.c
 int				ft_padright_char(int i, char c, char **s);
@@ -481,6 +499,11 @@ int				ft_process_prcptr(t_pf_info *data);
 
 //	ft_process_colours.c 
 int				ft_process_prcclr(t_pf_info *data);
+
+//	ft_init0.c
+char			*ft_get_print_string(va_list arg, const char *s, int *len);
+void			ft_print_list(t_list *lst);
+
 
 //	ft_init1.c
 t_list			*ft_process_input_string(const char *s);

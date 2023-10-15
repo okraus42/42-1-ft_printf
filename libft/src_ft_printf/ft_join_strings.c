@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/04 14:22:52 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/13 17:02:03 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/15 11:33:40 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,11 @@ char	*ft_print_lst_to_string(t_list *lst, int *len)
 	t_pf_info	*data;
 	char		*str;
 
+	if (!lst)
+		return (NULL);
 	str = ft_strdup("");
+	if (!str)
+			return (NULL);
 	while (lst)
 	{
 		if (!str)

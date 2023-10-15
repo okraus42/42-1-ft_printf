@@ -6,11 +6,31 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/13 17:29:03 by okraus            #+#    #+#             */
-/*   Updated: 2023/10/13 17:30:07 by okraus           ###   ########.fr       */
+/*   Updated: 2023/10/15 11:58:08 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../header/libft.h"
+
+int	ft_snpf_strncpy(char *str, char *temp, size_t size, int len)
+{
+	int	i;
+	int	min;
+	i = 0;
+
+	if (size > INT_MAX)
+		return (-1);
+	min = (int)size;
+	if (len < min)
+		min = len;
+	while (i < min)
+	{
+		str[i] = temp[i];
+		i++;	
+	}
+	str[i] = '\0';
+	return (i);
+}
 
 char	*ft_string_copy_n(char const *str, int n)
 {
