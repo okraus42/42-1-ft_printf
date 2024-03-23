@@ -1,2 +1,2 @@
-# 42-3-philososophers
-42 Philosophers project
+# 42-1-ft_printf
+42 ft_printf project
