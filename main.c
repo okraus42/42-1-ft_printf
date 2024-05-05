@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:49:23 by okraus            #+#    #+#             */
-/*   Updated: 2024/03/23 13:43:13 by okraus           ###   ########.fr       */
+/*   Updated: 2024/05/05 11:19:10 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ int	main(void)
 	pf = printf("a\n");
 	num = write(1, "a\n", 2);
 	fp = ft_printf("a\n");
-	dprintf (2, "pf = %d, fp = %d\n", pf, fp);
+	dprintf (2, "pf = %d, fp = %d, num = %d\n", pf, fp, num);
 	return (0);
 }
