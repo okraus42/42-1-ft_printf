@@ -6,14 +6,13 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:49:23 by okraus            #+#    #+#             */
-/*   Updated: 2024/05/05 11:19:10 by okraus           ###   ########.fr       */
+/*   Updated: 2024/05/05 11:25:16 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "ft_printf.h"
 #include <stdio.h>
-
-//int	ft_printf(const char *s, ...);
+#include <unistd.h>
+int	ft_printf(const char *s, ...);
 
 int	main(void)
 {
