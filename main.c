@@ -6,7 +6,7 @@
 /*   By: okraus <okraus@student.42prague.com>       +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/01/22 13:49:23 by okraus            #+#    #+#             */
-/*   Updated: 2024/05/05 11:25:16 by okraus           ###   ########.fr       */
+/*   Updated: 2024/11/09 12:31:40 by okraus           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,15 @@ int	main(void)
 	pf = printf("printf : a%pbc%%de%cfg%uh%cij%sk%dlm%inop%Xq%xr\n", (void *)&c, d, u, '\0', s, num, 0, u, u);
 	fp = ft_printf("ftprint: a%pbc%%de%cfg%uh%cij%sk%dlm%inop%Xq%xr\n", (void *)&c, d, u, '\0', s, num, 0, u, u);
 	printf ("pf = %d, fp = %d\n", pf, fp);
+	//ERROR handling
 	fclose(stdout);
-	pf = printf("a\n");
+	pf = printf("printf : a%pbc%%de%cfg%uh%cij%sk%dlm%inop%Xq%xr\n", (void *)&c, d, u, '\0', s, num, 0, u, u);
+	fp = ft_printf("ftprint: a%pbc%%de%cfg%uh%cij%sk%dlm%inop%Xq%xr\n", (void *)&c, d, u, '\0', s, num, 0, u, u);
 	num = write(1, "a\n", 2);
-	fp = ft_printf("a\n");
 	dprintf (2, "pf = %d, fp = %d, num = %d\n", pf, fp, num);
+	pf = printf(NULL);
+	dprintf (2, "pf = %d\n", pf);
+	fp = ft_printf(NULL);
+	dprintf (2, "pf = %d\n", pf);
 	return (0);
 }
