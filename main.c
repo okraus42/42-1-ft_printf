@@ -61,6 +61,6 @@ int	main(void)
 	pf = printf(NULL);
 	dprintf (2, "pf = %d\n", pf);
 	fp = ft_printf(NULL);
-	dprintf (2, "pf = %d\n", pf);
+	dprintf (2, "fp = %d\n", fp);
 	return (0);
 }
